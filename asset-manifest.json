@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/cluby/static/css/main.e6b731c1.chunk.css",
+    "main.js": "/cluby/static/js/main.24812d34.chunk.js",
+    "main.js.map": "/cluby/static/js/main.24812d34.chunk.js.map",
+    "runtime-main.js": "/cluby/static/js/runtime-main.e949952a.js",
+    "runtime-main.js.map": "/cluby/static/js/runtime-main.e949952a.js.map",
+    "static/js/2.312cf107.chunk.js": "/cluby/static/js/2.312cf107.chunk.js",
+    "static/js/2.312cf107.chunk.js.map": "/cluby/static/js/2.312cf107.chunk.js.map",
+    "index.html": "/cluby/index.html",
+    "precache-manifest.beea78a94a955e6800d46e3f7bb44df1.js": "/cluby/precache-manifest.beea78a94a955e6800d46e3f7bb44df1.js",
+    "service-worker.js": "/cluby/service-worker.js",
+    "static/css/main.e6b731c1.chunk.css.map": "/cluby/static/css/main.e6b731c1.chunk.css.map",
+    "static/media/logo.png": "/cluby/static/media/logo.1c1bbb70.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.e949952a.js",
+    "static/js/2.312cf107.chunk.js",
+    "static/css/main.e6b731c1.chunk.css",
+    "static/js/main.24812d34.chunk.js"
+  ]
+}
