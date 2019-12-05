@@ -14,19 +14,11 @@ const CURRENT_USER = undefined;
 export default class App extends Component {
 
     render() {
-        let layout;
-
         if (CURRENT_USER && CURRENT_USER.userType === 'CLUB') {
-            layout = <BackofficeLayout currentUser={CURRENT_USER} />;
+            return <BackofficeLayout currentUser={CURRENT_USER} />;
         } else {
-            layout = <WebsiteLayout currentUser={CURRENT_USER} />;
+            return <WebsiteLayout currentUser={CURRENT_USER} />;
         }
-        
-        return (
-            <div>
-                {layout}
-            </div>
-        );
     }
 
 }
