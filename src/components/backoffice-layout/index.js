@@ -1,1 +1,1 @@
-export {default} from './backoffice-layout' ;
+export { default } from './backoffice-layout';

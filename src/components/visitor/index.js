@@ -1,1 +1,1 @@
-export {default} from './visitor' ; 
+export { default } from './visitor';

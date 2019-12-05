@@ -1,1 +1,1 @@
-export {default} from './sponsor' ; 
+export { default } from './sponsor'; 
