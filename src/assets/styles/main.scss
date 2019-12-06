@@ -1,1 +1,21 @@
-@import './base/reset';
+// antd style
+@import '~antd/dist/antd.css';
+
+// abstracts
+@import 'abstracts/variables';
+
+// base
+
+// components
+
+// layouts
+@import 'layouts/containers';
+@import 'layouts/header';
+@import 'layouts/layouts';
+@import 'layouts/wrappers';
+
+// pages
+
+// themes
+
+// vendors

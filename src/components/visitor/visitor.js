@@ -13,13 +13,16 @@ export default class Visitor extends Component {
     render() {
         return (
             <Router>
-                <h1>Visitor</h1>
                 <Switch>
-                    <Route exact path={`/visitor/sign-in`} component={SignIn} />
-                    <Route exact path={`/visitor/sign-up`} component={SignUp} />
-                    <Route exact path={`/visitor/events`} component={Events} />
-                    <Route exact path={`/visitor/events/event-details/:id`} component={EventDetails} />
-                    <Route exact path={`/visitor/clubs/club-details/:id`} component={ClubDetails} />
+                    <div className="website-layout-content-wrapper">
+                        <div className="website-layout-view-container">
+                            <Route exact path={`/visitor/events`} component={Events} />
+                            <Route path={`/visitor/events/event-details/:id`} component={EventDetails} />
+                            <Route path={`/visitor/clubs/club-details/:id`} component={ClubDetails} />
+                            <Route path={`/visitor/sign-in`} component={SignIn} />
+                            <Route path={`/visitor/sign-up`} component={SignUp} />
+                        </div>
+                    </div>
                 </Switch>
             </Router>
         )
