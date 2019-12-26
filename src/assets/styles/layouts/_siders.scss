@@ -1,0 +1,53 @@
+.backoffice-layout-main-menu-sider {
+    box-shadow: 0px 0px 20px 0px rgba(229,229,229,1);
+
+    .ant-menu-root {
+        padding: 24px 0px;
+    }
+
+    .ant-menu-item, 
+    .ant-menu-submenu-title {
+        margin: 0px;
+        padding-left: 32px !important;
+        height: 64px !important;
+        line-height: 64px !important;
+
+        &:not(:last-child) {
+            margin: 0px;
+        }
+
+        &:after {
+            border-right: 0px;
+        }
+
+        &:hover {
+            background-color: transparent;
+            color: map-get($colors, secondary) !important;
+        }
+
+        .anticon {
+            margin-right: 24px;
+        }
+    }
+
+    .ant-menu-submenu {
+
+        .ant-menu-item {
+            padding-left: 72px !important;
+        }
+
+        .ant-menu-item-selected {
+            background-color: transparent !important;
+        }
+    }
+
+    .ant-menu-sub {
+        background-color: #E5E5E5;
+    }
+
+    .ant-menu-item-selected,
+    .ant-menu-submenu-selected {
+        background-color: map-get($colors, primary) !important;
+        color: map-get($colors, secondary) !important;
+    }
+}

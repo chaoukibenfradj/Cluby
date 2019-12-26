@@ -1,7 +1,17 @@
 .ant-layout-header {
-    padding: 0;
     color: map-get($colors, secondary);
     background: map-get($colors, primary);
+}
+
+.website-layout-header {
+    padding: 0;
+}
+
+.backoffice-layout-header {
+    padding: 0 16px;
+    display: flex;
+    flex-direction: row;
+    z-index: 10;
 }
 
 .header-content-container {
@@ -10,19 +20,32 @@
     line-height: 64px;
     display: flex;
     flex-direction: row;
+}
 
-    .header-item {
+.header-item {
+    box-sizing: border-box;
 
-        .logo {
-            height: 60%;
+    .sider-toggle-btn {
+        font-size: 22px;
+        padding: 21px 16px;
+        cursor: pointer;
+        transition: color 0.3s;
+        color: #FFFFFF;
+
+        &:hover {
+            color: map-get($colors, secondary);
         }
     }
 
-    .header-item+.header-item {
-        margin-left: 24px;
+    .logo {
+        height: 60%;
     }
+}
 
-    .space-filler {
-        flex: 1;
-    }
+.header-item+.header-item {
+    margin-left: 24px;
+}
+
+.space-filler {
+    flex: 1;
 }

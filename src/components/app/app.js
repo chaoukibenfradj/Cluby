@@ -4,12 +4,12 @@ import BackofficeLayout from '../backoffice-layout';
 import WebsiteLayout from '../website-layout';
 
 
-const CURRENT_USER = undefined;
-// const CURRENT_USER = {
-//   firstName : 'Jhon' , 
-//   lastName : 'Doe' , 
-//   userType : 'SPONSOR' 
-// };
+// const CURRENT_USER = undefined;
+const CURRENT_USER = {
+    firstName : 'Jhon' , 
+    lastName : 'Doe' , 
+    userType : 'CLUB' 
+};
 
 export default class App extends Component {
 

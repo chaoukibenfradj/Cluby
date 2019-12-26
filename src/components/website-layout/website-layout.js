@@ -23,8 +23,8 @@ export default class WebsiteLayout extends Component {
             userView = <Visitor />;
         }
         return (
-            <Layout className="layout">
-                <Header>
+            <Layout>
+                <Header className="website-layout-header">
                     <div className="website-layout-content-wrapper">
                         <div className="header-content-container">
                             <div className="header-item">

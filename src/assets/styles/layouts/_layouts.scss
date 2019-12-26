@@ -1,3 +1,4 @@
 .ant-layout {
+    min-height: calc(100vh - 64px);
     background: map-get($colors, background);
 }
