@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 
 import SignIn from '../sign-in' ;
 import SignUp from '../sign-up' ;
@@ -12,19 +12,17 @@ export default class VisitorView extends Component {
 
     render() {
         return (
-            <Router>
-                <Switch>
-                    <div className="website-layout-content-wrapper">
-                        <div className="website-layout-view-container">
-                            <Route exact path={`/`} component={Events} />
-                            <Route path={`/events/event-details/:id`} component={EventDetails} />
-                            <Route path={`/clubs/club-details/:id`} component={ClubDetails} />
-                            <Route path={`/sign-in`} component={SignIn} />
-                            <Route path={`/sign-up`} component={SignUp} />
-                        </div>
+            <Switch>
+                <div className="website-layout-content-wrapper">
+                    <div className="website-layout-view-container">
+                        <Route exact path={`/`} component={Events} />
+                        <Route path={`/events/event-details/:id`} component={EventDetails} />
+                        <Route path={`/clubs/club-details/:id`} component={ClubDetails} />
+                        <Route path={`/sign-in`} component={SignIn} />
+                        <Route path={`/sign-up`} component={SignUp} />
                     </div>
-                </Switch>
-            </Router>
+                </div>
+            </Switch>
         )
     }
 

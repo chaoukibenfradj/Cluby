@@ -12,17 +12,14 @@ export default class ClubView extends Component {
 
     render() {
         return (
-            <>
-                <h1>club view</h1>
-                <Switch>
-                    <Route exact path={`/`} component={Dashboard} />
-                    <Route path={`/events/club`} component={Events} />
-                    <Route path={`/events/all`} component={Events} />
-                    <Route path={`/clubs`} component={Clubs} />
-                    <Route path={`/sponsors`} component={Sponsors} />
-                    <Route path={`/emails`} component={Emails} />
-                </Switch>
-            </>
+            <Switch>
+                <Route exact path={`/`} component={Dashboard} />
+                <Route path={`/events/club`} component={Events} />
+                <Route path={`/events/all`} component={Events} />
+                <Route path={`/clubs`} component={Clubs} />
+                <Route path={`/sponsors`} component={Sponsors} />
+                <Route path={`/emails`} component={Emails} />
+            </Switch>
         )
     }
 
