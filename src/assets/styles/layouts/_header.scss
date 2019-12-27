@@ -40,6 +40,14 @@
     .logo {
         height: 60%;
     }
+
+    a {
+        color: map-get($colors, secondary);
+        
+        &:hover {
+            color: map-get($colors, secondary);
+        }
+    }
 }
 
 .header-item+.header-item {

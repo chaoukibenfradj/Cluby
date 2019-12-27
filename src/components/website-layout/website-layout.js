@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom'
 
 import { Layout } from 'antd';
 
@@ -28,11 +29,17 @@ export default class WebsiteLayout extends Component {
                     <div className="website-layout-content-wrapper">
                         <div className="header-content-container">
                             <div className="header-item">
-                                <img src={logoLight} alt="Cluby" className="logo" />
+                                <Link to="/">
+                                    <img src={logoLight} alt="Cluby" className="logo" />
+                                </Link>
                             </div>
                             <div className="space-filler"></div>
-                            <div className="header-item">Sign up</div>
-                            <div className="header-item">Sign in</div>
+                            <div className="header-item">
+                                <Link to="/sign-up">Sign up</Link>
+                            </div>
+                            <div className="header-item">
+                                <Link to="/sign-in">Sign in</Link>
+                            </div>
                         </div>
                     </div>
                 </Header>
