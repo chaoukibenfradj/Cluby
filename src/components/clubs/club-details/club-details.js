@@ -5,7 +5,7 @@ export default class ClubDetails extends Component {
 
     render() {
         return (
-            <h2>Club details</h2>
+            <h2>club details</h2>
         )
     }
 

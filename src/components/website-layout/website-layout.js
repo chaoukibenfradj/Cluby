@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 
 import { Layout } from 'antd';
 
-import Sponsor from '../sponsor';
-import Visitor from '../visitor';
-import Student from '../student';
+import StudentView from '../student-view';
+import SponsorView from '../sponsor-view';
+import VisitorView from '../visitor-view';
 
 import logoLight from '../../assets/imgs/logo-light.png';
 
@@ -16,11 +16,11 @@ export default class WebsiteLayout extends Component {
     render() {
         let userView;
         if (this.props.currentUser && this.props.currentUser.userType === 'STUDENT') {
-            userView = <Student />;
+            userView = <StudentView />;
         } else if (this.props.currentUser && this.props.currentUser.userType === 'SPONSOR') {
-            userView = <Sponsor />;
+            userView = <SponsorView />;
         } else {
-            userView = <Visitor />;
+            userView = <VisitorView />;
         }
         return (
             <Layout>

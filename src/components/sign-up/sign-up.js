@@ -5,7 +5,7 @@ export default class SignUp extends Component {
 
     render() {
         return (
-            <h2>Sign up</h2>
+            <h2>sign up</h2>
         )
     }
 

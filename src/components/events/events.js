@@ -5,7 +5,7 @@ export default class Events extends Component {
 
     render() {
         return (
-            <h2>Events list</h2>
+            <h2>events list</h2>
         )
     }
 

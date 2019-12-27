@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 
 
-export default class Club extends Component {
+export default class SponsorView extends Component {
 
     render() {
         return (
             <Router>
-                <h1>Club</h1>
+                <h1>sponsor view</h1>
             </Router>
         )
     }

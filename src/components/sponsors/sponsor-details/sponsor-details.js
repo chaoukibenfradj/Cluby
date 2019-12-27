@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 
 
-export default class Clubs extends Component {
+export default class SponsorDetails extends Component {
 
     render() {
         return (
-            <h2>clubs list</h2>
+            <h2>sponsor details</h2>
         )
     }
 
