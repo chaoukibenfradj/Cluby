@@ -11,7 +11,7 @@ const CURRENT_USER = {
     firstName: 'John',
     lastName: 'Doe',
     email: 'john.doe@email.com',
-    userType: 'SPONSOR'
+    userType: 'CLUB'
 };
 
 export default class App extends Component {

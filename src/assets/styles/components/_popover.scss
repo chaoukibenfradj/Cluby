@@ -1,0 +1,33 @@
+.popover-content {
+    min-width: 200px;
+
+    .popover-header {
+        padding-top: 12px;
+
+        p {
+            margin: 0px;
+        }
+
+        .fullname {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .email {
+            margin-top: -4px;
+        }
+    }
+
+    .ant-divider-horizontal {
+        margin: 24px 0px 12px 0px;
+    }
+
+    .popover-actions {
+
+        .ant-btn-link {
+            display: block;
+            padding: 0px;
+            color: map-get($colors, secondary);
+        }
+    }
+}

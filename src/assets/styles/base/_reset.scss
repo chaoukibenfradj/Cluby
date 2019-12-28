@@ -1,0 +1,8 @@
+a {
+    color: map-get($colors, secondary);
+
+    &:hover {
+        color: map-get($colors, secondary);
+        text-decoration: underline;
+    }
+}

@@ -5,9 +5,11 @@
 @import 'abstracts/variables';
 
 // base
+@import 'base/reset';
 
 // components
 @import 'components/avatar';
+@import 'components/popover';
 
 // layouts
 @import 'layouts/containers';

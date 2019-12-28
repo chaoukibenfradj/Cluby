@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 
 import { Layout, Menu, Icon } from 'antd';
 
+import HeaderUserInfo from '../header-user-info';
 import ClubView from '../club-view';
 
 import logoLight from '../../assets/imgs/logo-light.png';
@@ -39,10 +40,15 @@ export default class BackofficeLayout extends Component {
                             onClick={this.toggleSider}
                         />
                     </div>
-                    <div className="header-item">
-                        <img src={logoLight} alt="Cluby" className="logo" />
+                    <div className="header-item clickable">
+                        <Link to="/">
+                            <img src={logoLight} alt="Cluby" className="logo" />
+                        </Link>
                     </div>
                     <div className="space-filler"></div>
+                    <div className="header-item clickable">
+                        <HeaderUserInfo currentUser={this.props.currentUser} />
+                    </div>
                 </Header>
                 <Layout>
                     <Sider

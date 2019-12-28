@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 
-import { Layout, Avatar, Popover } from 'antd';
+import { Layout } from 'antd';
 
+import HeaderUserInfo from '../header-user-info';
 import StudentView from '../student-view';
 import SponsorView from '../sponsor-view';
 import VisitorView from '../visitor-view';
@@ -13,31 +14,6 @@ const { Header, Content } = Layout;
 
 
 export default class WebsiteLayout extends Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            isUserPopoverVisible: false,
-        };
-    }
-
-    handleUserPopoverVisible = isUserPopoverVisible => {
-        this.setState({
-            isUserPopoverVisible
-        });
-    };
-
-    getCurrentUserInitials() {
-        let initials = '';
-        if (
-            this.props.currentUser && 
-            this.props.currentUser.firstName && this.props.currentUser.firstName.length > 0 && 
-            this.props.currentUser.lastName && this.props.currentUser.lastName.length > 0
-        ) {
-            initials = this.props.currentUser.firstName.charAt(0).toUpperCase() + this.props.currentUser.lastName.charAt(0).toUpperCase();
-        }
-        return initials;
-    }
 
     render() {
         let userView;
@@ -53,7 +29,7 @@ export default class WebsiteLayout extends Component {
                 <Header className="website-layout-header">
                     <div className="website-layout-content-wrapper">
                         <div className="header-content-container">
-                            <div className="header-item">
+                            <div className="header-item clickable">
                                 <Link to="/">
                                     <img src={logoLight} alt="Cluby" className="logo" />
                                 </Link>
@@ -61,33 +37,15 @@ export default class WebsiteLayout extends Component {
                             <div className="space-filler"></div>
                             {
                                 this.props.currentUser ? (
-                                    <div className="header-item">
-                                        {
-                                            (this.getCurrentUserInitials() && this.getCurrentUserInitials().length > 0) ? (
-                                                <Popover
-                                                    content={
-                                                        <>
-                                                            <div>{this.props.currentUser.firstName + ' ' + this.props.currentUser.lastName}</div>
-                                                            <div>{this.props.currentUser.email}</div>
-                                                        </>
-                                                    }
-                                                    trigger="click"
-                                                    visible={this.state.isUserPopoverVisible}
-                                                    onVisibleChange={this.handleUserPopoverVisible}
-                                                >
-                                                    <Avatar>{this.getCurrentUserInitials()}</Avatar>
-                                                </Popover>
-                                            ) : (
-                                                <Avatar icon="user" />
-                                            )
-                                        }
+                                    <div className="header-item clickable">
+                                        <HeaderUserInfo currentUser={this.props.currentUser} />
                                     </div>
                                 ) : (
                                     <>
-                                        <div className="header-item">
+                                        <div className="header-item clickable">
                                             <Link to="/sign-up">Sign up</Link>
                                         </div>
-                                        <div className="header-item">
+                                        <div className="header-item clickable">
                                             <Link to="/sign-in">Sign in</Link>
                                         </div>
                                     </>

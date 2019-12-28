@@ -50,6 +50,10 @@
     }
 }
 
+.clickable {
+    cursor: pointer;
+}
+
 .header-item+.header-item {
     margin-left: 24px;
 }
