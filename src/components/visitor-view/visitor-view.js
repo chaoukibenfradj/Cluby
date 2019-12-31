@@ -13,15 +13,15 @@ export default class VisitorView extends Component {
     render() {
         return (
             <Switch>
-                <div className="website-layout-content-wrapper">
-                    <div className="website-layout-view-container">
+                {/* <div className="website-layout-content-wrapper">
+                    <div className="website-layout-view-container"> */}
                         <Route exact path={`/`} component={Events} />
                         <Route path={`/events/event-details/:id`} component={EventDetails} />
                         <Route path={`/clubs/club-details/:id`} component={ClubDetails} />
                         <Route path={`/sign-in`} component={SignIn} />
                         <Route path={`/sign-up`} component={SignUp} />
-                    </div>
-                </div>
+                    {/* </div>
+                </div> */}
             </Switch>
         )
     }

@@ -1,3 +1,7 @@
+body {
+    color: map-get($colors, black-medium) !important;
+}
+
 a {
     color: map-get($colors, secondary);
 
@@ -5,4 +9,36 @@ a {
         color: map-get($colors, secondary);
         text-decoration: underline;
     }
+}
+
+h1, h2, h3, h4, h5, h6 {
+	color: map-get($colors, black-dark) !important;
+}
+
+h1 {
+    font-size: 3em;
+    font-weight: 900;
+	line-height: 1.5em;
+	margin-bottom: 3em;
+}
+
+h2 {
+    font-size: 2em;
+    font-weight: 700;
+	line-height: 1.5em;
+	margin-bottom: 2em;
+}
+
+h3 {
+    font-size: 1.5em;
+    font-weight: 500;
+	line-height: 1em;
+	margin-bottom: 1.5em;
+}
+
+h4 {
+    font-size: 1.25em;
+    font-weight: 300;
+	line-height: 1em;
+	margin-bottom: 1.25em;
 }

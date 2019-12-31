@@ -1,0 +1,13 @@
+.ant-input {
+    height: 42px;
+    line-height: 42px;
+    padding: 0px 18px;
+    border-radius: 24px;
+
+    &:hover,
+    &:active,
+    &:focus {
+        border-color: map-get($colors, secondary);
+        box-shadow: none !important;
+    }
+}

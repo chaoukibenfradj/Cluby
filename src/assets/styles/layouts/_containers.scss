@@ -6,3 +6,40 @@
     padding: 32px;
     box-sizing: border-box;
 }
+
+.two-columns-container {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: flex-start;
+
+    .column {
+        flex: 1;
+
+        .website-layout-column-content-container {
+            width: 68%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            justify-content: center;
+        }
+    }
+
+    .left-column {
+
+        .website-layout-column-content-container {
+            margin: 0 0 0 auto;
+            padding-right: 48px;
+        }
+    }
+
+    .right-column {
+        
+        .website-layout-column-content-container {
+            margin: 0 auto 0 0;
+            padding-left: 48px;
+        }
+    }
+}

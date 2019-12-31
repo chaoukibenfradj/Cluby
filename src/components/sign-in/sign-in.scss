@@ -1,0 +1,22 @@
+@import '../../assets/styles/main.scss';
+
+
+.left-column {
+    background-image: url(../../assets/imgs/sign-in-background.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: right;
+    text-align: right;
+    
+    h1 {
+        color: map-get($colors, white) !important;
+    }
+}
+
+.right-column {
+
+    h2 {
+        max-width: 200px;
+        margin-left: 18px;
+    }
+}

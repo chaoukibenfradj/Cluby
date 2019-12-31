@@ -1,4 +1,11 @@
+.layout {
+    min-height: 100vh;
+}
+
 .ant-layout {
-    min-height: calc(100vh - 64px);
     background: map-get($colors, background);
+}
+
+.ant-layout-content {
+    display: flex;
 }

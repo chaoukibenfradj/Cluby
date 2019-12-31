@@ -1,0 +1,20 @@
+.ant-btn {
+    height: 42px;
+    line-height: 42px;
+    padding: 0px 18px;
+    border-radius: 24px;
+}
+
+.btn-secondary-solid {
+    color: map-get($colors, white);
+    background-color: map-get($colors, secondary);
+    border-color: map-get($colors, secondary);
+
+    &:hover,
+    &:active,
+    &:focus {
+        color: map-get($colors, white);
+        background-color: map-get($colors, secondary-tint);
+        border-color: map-get($colors, secondary);
+    }
+}

@@ -11,6 +11,50 @@ import logoLight from '../../assets/imgs/logo-light.png';
 const { Header, Content, Sider } = Layout;
 const { SubMenu } = Menu;
 
+const CLUB_MAIN_MENU_ITEMS = [
+    {
+        key: '/',
+        label: 'Dashboard',
+        icon: 'appstore',
+        link: '/'
+    },
+    {
+        key: '/events',
+        label: 'Events',
+        icon: 'calendar',
+        children: [
+            {
+                key: 'club-events',
+                label: 'Club events',
+                link: '/events/club'
+            },
+            {
+                key: 'all-events',
+                label: 'All events',
+                link: '/events/all'
+            }
+        ]
+    },
+    {
+        key: '/clubs',
+        label: 'Clubs',
+        icon: 'deployment-unit',
+        link: '/clubs'
+    },
+    {
+        key: '/sponsors',
+        label: 'Sponsors',
+        icon: 'user',
+        link: '/sponsors'
+    },
+    {
+        key: '/emails',
+        label: 'Emails',
+        icon: 'inbox',
+        link: '/emails'
+    }
+];
+
 
 export default class BackofficeLayout extends Component {
 
@@ -18,20 +62,88 @@ export default class BackofficeLayout extends Component {
         super(props);
         this.state = {
             isSiderCollapsed: false,
+            activeMainMenuItem: '/'
         };
+    }
+
+    componentWillMount(){
+        console.log('mounted');
+        // hashHistory.listen((event)=>{
+        //     let pathname = event.pathname.split("/");
+        //     console.log(pathname);
+        //     // if(pathname != null){
+        //     //     this.setState({
+        //     //         test:pathname[1]
+        //     //     });
+        //     // }
+        // });
     }
 
     toggleSider = () => {
         this.setState({ isSiderCollapsed: !this.state.isSiderCollapsed });
     };
 
+    // defaultSelectedKeys={['menu-item-1']}
+
     render() {
         let userView;
+        let mainMenuItems;
         if (this.props.currentUser && this.props.currentUser.userType === 'CLUB') {
             userView = <ClubView />;
+            mainMenuItems = CLUB_MAIN_MENU_ITEMS.slice(0);
         }
+        const mainMenu = (
+            <Menu
+                mode="inline"
+                theme="light"
+                defaultSelectedKeys={[this.state.activeMainMenuItem]}
+                style={{ height: '100%', borderRight: 0 }}
+            >
+                {
+                    mainMenuItems.map(
+                        (item) => {
+                            if (item.children && item.children.length > 0) {
+                                return (
+                                    <SubMenu
+                                        key={item.key}
+                                        title={
+                                            <span>
+                                                <Icon type={item.icon} />
+                                                {item.label}
+                                            </span>
+                                        }
+                                    >
+                                        {
+                                            item.children.map(
+                                                (child) => {
+                                                    return (
+                                                        <Menu.Item key={child.key}>
+                                                            <span>{child.label}</span>
+                                                            <Link to={child.link}></Link>
+                                                        </Menu.Item>
+                                                    );
+                                                }
+                                            )
+                                        }
+                                    </SubMenu>
+                                );
+                            } else {
+                                return (
+                                    <Menu.Item key={item.key}>
+                                        <Icon type={item.icon} />
+                                        <span>{item.label}</span>
+                                        <Link to={item.link}></Link>
+                                    </Menu.Item>
+                                );
+                            }
+                        }
+                    )
+                }
+            </Menu>
+        );
+        
         return (
-            <Layout>
+            <Layout className="layout">
                 <Header className="backoffice-layout-header">
                     <div className="header-item">
                         <Icon
@@ -60,55 +172,11 @@ export default class BackofficeLayout extends Component {
                         collapsed={this.state.isSiderCollapsed}
                         className="backoffice-layout-main-menu-sider"
                     >
-                        <Menu
-                            mode="inline"
-                            theme="light"
-                            defaultSelectedKeys={['menu-item-1']}
-                            style={{ height: '100%', borderRight: 0 }}
-                        >
-                            <Menu.Item key="menu-item-1">
-                                <Icon type="appstore" />
-                                <span>Dashboard</span>
-                                <Link to="/"></Link>
-                            </Menu.Item>
-                            <SubMenu
-                                key="sub-menu-1"
-                                title={
-                                    <span>
-                                        <Icon type="calendar" />
-                                        Events
-                                    </span>
-                                }
-                            >
-                                <Menu.Item key="menu-item-2">
-                                    <span>Club events</span>
-                                    <Link to="/events/club"></Link>
-                                </Menu.Item>
-                                <Menu.Item key="menu-item-3">
-                                    <span>All events</span>
-                                    <Link to="/events/all"></Link>
-                                </Menu.Item>
-                            </SubMenu>
-                            <Menu.Item key="menu-item-4">
-                                <Icon type="deployment-unit" />
-                                <span>Clubs</span>
-                                <Link to="/clubs"></Link>
-                            </Menu.Item>
-                            <Menu.Item key="menu-item-5">
-                                <Icon type="user" />
-                                <span>Sponsors</span>
-                                <Link to="/sponsors"></Link>
-                            </Menu.Item>
-                            <Menu.Item key="menu-item-6">
-                                <Icon type="inbox" />
-                                <span>Emails</span>
-                                <Link to="/emails"></Link>
-                            </Menu.Item>
-                        </Menu>
+                        {mainMenu}
                     </Sider>
                     <Layout>
                         <Content className="backoffice-layout-content-container">
-                            { userView }
+                            {userView}
                         </Content>
                     </Layout>
                 </Layout>
