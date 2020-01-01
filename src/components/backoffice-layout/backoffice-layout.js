@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 
 import { Layout, Menu, Icon } from 'antd';
 
@@ -24,12 +24,12 @@ const CLUB_MAIN_MENU_ITEMS = [
         icon: 'calendar',
         children: [
             {
-                key: 'club-events',
+                key: '/events/club',
                 label: 'Club events',
                 link: '/events/club'
             },
             {
-                key: 'all-events',
+                key: '/events/all',
                 label: 'All events',
                 link: '/events/all'
             }
@@ -61,29 +61,13 @@ export default class BackofficeLayout extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isSiderCollapsed: false,
-            activeMainMenuItem: '/'
+            isSiderCollapsed: false
         };
-    }
-
-    componentWillMount(){
-        console.log('mounted');
-        // hashHistory.listen((event)=>{
-        //     let pathname = event.pathname.split("/");
-        //     console.log(pathname);
-        //     // if(pathname != null){
-        //     //     this.setState({
-        //     //         test:pathname[1]
-        //     //     });
-        //     // }
-        // });
     }
 
     toggleSider = () => {
         this.setState({ isSiderCollapsed: !this.state.isSiderCollapsed });
     };
-
-    // defaultSelectedKeys={['menu-item-1']}
 
     render() {
         let userView;
@@ -96,7 +80,7 @@ export default class BackofficeLayout extends Component {
             <Menu
                 mode="inline"
                 theme="light"
-                defaultSelectedKeys={[this.state.activeMainMenuItem]}
+                selectedKeys={[this.props.location.pathname]}
                 style={{ height: '100%', borderRight: 0 }}
             >
                 {
