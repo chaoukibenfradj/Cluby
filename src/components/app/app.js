@@ -5,14 +5,14 @@ import BackofficeLayout from '../backoffice-layout';
 import WebsiteLayout from '../website-layout';
 
 
-// const CURRENT_USER = undefined;
-const CURRENT_USER = {
-    id: 'IPk23EE4sD56es',
-    firstName: 'John',
-    lastName: 'Doe',
-    email: 'john.doe@email.com',
-    userType: 'CLUB'
-};
+const CURRENT_USER = undefined;
+// const CURRENT_USER = {
+//     id: 'IPk23EE4sD56es',
+//     firstName: 'John',
+//     lastName: 'Doe',
+//     email: 'john.doe@email.com',
+//     userType: 'CLUB'
+// };
 
 export default class App extends Component {
 
