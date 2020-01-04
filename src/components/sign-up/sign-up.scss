@@ -9,7 +9,7 @@
     text-align: right;
     
     .website-layout-column-content-container {
-        
+
         h1 {
             color: map-get($colors, white) !important;
             margin-bottom: 0px;
@@ -23,7 +23,12 @@
 
         h2 {
             max-width: 200px;
+            margin-top: 2em;
             margin-left: 18px;
+        }
+
+        .ant-btn-block+.ant-btn-block {
+            margin-top: 12px;
         }
     }
 }

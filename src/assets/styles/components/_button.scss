@@ -18,3 +18,17 @@
         border-color: map-get($colors, secondary);
     }
 }
+
+.btn-secondary-outlined {
+    color: map-get($colors, secondary);
+    background-color: transparent;
+    border-color: map-get($colors, secondary);
+
+    &:hover,
+    &:active,
+    &:focus {
+        color: map-get($colors, white);
+        background-color: map-get($colors, secondary);
+        border-color: map-get($colors, secondary);
+    }
+}
