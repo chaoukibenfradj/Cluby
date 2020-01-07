@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom'
+import { BrowserRouter as Router,Link,Switch,Route } from 'react-router-dom'
 
 import { Layout } from 'antd';
 
@@ -7,7 +7,7 @@ import HeaderUserInfo from '../header-user-info';
 import StudentView from '../student-view';
 import SponsorView from '../sponsor-view';
 import VisitorView from '../visitor-view';
-
+import EventDetails from '../events/event-details' ;
 import logoLight from '../../assets/imgs/logo-light.png';
 
 const { Header, Content } = Layout;
@@ -55,7 +55,24 @@ export default class WebsiteLayout extends Component {
                     </div>
                 </Header>
                 <Content>
-                    { userView }
+               <Router>
+                        <Switch>
+                            <Route path={'/'}
+                            // component={StudentView}
+                            exact
+                            render={(props)=>{
+                                if (this.props.currentUser && this.props.currentUser.userType === 'STUDENT') {
+                                    return <StudentView {...props}/>;
+                                } else if (this.props.currentUser && this.props.currentUser.userType === 'SPONSOR') {
+                                    return  <SponsorView {...props}/>;
+                                } else {
+                                    return <VisitorView {...props}/>;
+                                }
+                            }}
+                            />
+                            <Route path={'/event/:id'} component={EventDetails}/>
+                        </Switch>
+                    </Router>
                 </Content>
             </Layout>
         );
