@@ -1,0 +1,54 @@
+@import '../../../assets/styles/main.scss';
+
+.event-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.event-image {
+    max-height: 40vh;
+}
+
+.btn-secondary-solid {
+    height: 30px !important;
+    line-height: 0 !important;
+}
+
+.right-section {
+    position: absolute;
+    left: 80vw;
+    top: 25vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .nb-participant {
+        margin-top: 3vh;
+    }
+}
+
+.description-section {
+    width: 95%;
+    margin-top: 5vh;
+    font-weight: 500;
+    font-size: 18px;
+}
+
+.right-section-bottom {
+    position: absolute;
+    left: 75vw;
+    top: 70vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .icon {
+        margin-right: 8px;
+        color : map-get($colors, secondary) ;
+    }
+}
+
+h4 {
+    font-weight: 700;
+}

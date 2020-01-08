@@ -57,7 +57,7 @@ export default class StudentView extends Component {
                             onClick={() => { this.props.history.push(`/event/${element.id}`) }}
                             hoverable
                             style={{ width: '25vw' }}
-                            cover={<img alt="example" src={element.photo} onError={(e) => { e.target.src = placeholder }} />}
+                            cover={<img alt="event-card" src={element.photo} onError={(e) => { e.target.src = placeholder }} />}
                         >
                             <Meta title={element.name} description={element.description} />
                         </Card>
