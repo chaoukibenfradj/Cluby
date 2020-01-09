@@ -17,9 +17,9 @@ export default class WebsiteLayout extends Component {
 
     render() {
         let userView;
-        if (this.props.currentUser && this.props.currentUser.userType === 'STUDENT') {
+        if (this.props.currentUser && this.props.currentUser.role === 'Student') {
             userView = <StudentView />;
-        } else if (this.props.currentUser && this.props.currentUser.userType === 'SPONSOR') {
+        } else if (this.props.currentUser && this.props.currentUser.role === 'Sponsor') {
             userView = <SponsorView />;
         } else {
             userView = <VisitorView />;

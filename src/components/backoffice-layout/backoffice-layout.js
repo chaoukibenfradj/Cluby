@@ -72,7 +72,7 @@ export default class BackofficeLayout extends Component {
     render() {
         let userView;
         let mainMenuItems;
-        if (this.props.currentUser && this.props.currentUser.userType === 'CLUB') {
+        if (this.props.currentUser && this.props.currentUser.role === 'Club') {
             userView = <ClubView />;
             mainMenuItems = CLUB_MAIN_MENU_ITEMS.slice(0);
         }

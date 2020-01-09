@@ -1,99 +1,101 @@
 import React, { Component } from 'react';
 
-import { Form, Input, Button, Select } from 'antd';
+import { Form, Input, Button /*, Select*/ } from 'antd';
+
+import axios from 'axios';
 
 import './sign-up.scss';
+import { publishCurrentUserUpdate } from '../app/app.js';
 
 function hasErrors(fieldsError) {
     return Object.keys(fieldsError).some(field => fieldsError[field]);
 }
 
-const { Option } = Select;
+// const { Option } = Select;
 
-const UNIVERSITIES = [
-    {
-        id: 'U001',
-        name: 'Université de la Manouba',
-        abbreviation: 'UMA',
-        location: 'Manouba',
-        institutions: [
-            {
-                id: 'I001',
-                name: 'Ecole Nationale des Sciences de l\'Informatique',
-                abbreviation: 'ENSI',
-                location: 'Manouba'
-            },
-            {
-                id: 'I002',
-                name: 'Institut Supérieur de Comptabilité et d\'Administration des Entreprises',
-                abbreviation: 'ISCAE',
-                location: 'Manouba'
-            },
-            {
-                id: 'I003',
-                name: 'Ecole Supérieure de Commerce',
-                abbreviation: 'ESC',
-                location: 'Manouba'
-            },
-            {
-                id: 'I004',
-                name: 'Institut Supérieur des Arts Multimédia de la Manouba',
-                abbreviation: 'ISAMM',
-                location: 'Manouba'
-            }
-        ]
-    },
-    {
-        id: 'U002',
-        name: 'Université de Tunis El Manar',
-        abbreviation: 'UTM',
-        location: 'Tunis',
-        institutions: [
-            {
-                id: 'I005',
-                name: 'Institut Préparatoire aux Eudes d\'Ingénieurs el Manar',
-                abbreviation: 'IPEIEM',
-                location: 'Tunis'
-            },
-            {
-                id: 'I006',
-                name: 'Institut Supérieur des Sciences Biologiques Appliquées de Tunis',
-                abbreviation: 'ISSBAT',
-                location: 'Tunis'
-            },
-            {
-                id: 'I007',
-                name: 'Faculté de Droit et des Sciences Politiques de Tunis',
-                abbreviation: 'FDSPT',
-                location: 'Tunis'
-            }
-        ]
-    }
-];
+// const UNIVERSITIES = [
+//     {
+//         id: 'U001',
+//         name: 'Université de la Manouba',
+//         abbreviation: 'UMA',
+//         location: 'Manouba',
+//         institutions: [
+//             {
+//                 id: 'I001',
+//                 name: 'Ecole Nationale des Sciences de l\'Informatique',
+//                 abbreviation: 'ENSI',
+//                 location: 'Manouba'
+//             },
+//             {
+//                 id: 'I002',
+//                 name: 'Institut Supérieur de Comptabilité et d\'Administration des Entreprises',
+//                 abbreviation: 'ISCAE',
+//                 location: 'Manouba'
+//             },
+//             {
+//                 id: 'I003',
+//                 name: 'Ecole Supérieure de Commerce',
+//                 abbreviation: 'ESC',
+//                 location: 'Manouba'
+//             },
+//             {
+//                 id: 'I004',
+//                 name: 'Institut Supérieur des Arts Multimédia de la Manouba',
+//                 abbreviation: 'ISAMM',
+//                 location: 'Manouba'
+//             }
+//         ]
+//     },
+//     {
+//         id: 'U002',
+//         name: 'Université de Tunis El Manar',
+//         abbreviation: 'UTM',
+//         location: 'Tunis',
+//         institutions: [
+//             {
+//                 id: 'I005',
+//                 name: 'Institut Préparatoire aux Eudes d\'Ingénieurs el Manar',
+//                 abbreviation: 'IPEIEM',
+//                 location: 'Tunis'
+//             },
+//             {
+//                 id: 'I006',
+//                 name: 'Institut Supérieur des Sciences Biologiques Appliquées de Tunis',
+//                 abbreviation: 'ISSBAT',
+//                 location: 'Tunis'
+//             },
+//             {
+//                 id: 'I007',
+//                 name: 'Faculté de Droit et des Sciences Politiques de Tunis',
+//                 abbreviation: 'FDSPT',
+//                 location: 'Tunis'
+//             }
+//         ]
+//     }
+// ];
 
-const ORGANIZATION_TYPES = [
-    {
-        id: '',
-        label: ''
-    }
-];
+// const ORGANIZATION_TYPES = [
+//     {
+//         id: '',
+//         label: ''
+//     }
+// ];
 
-const ACTIVITY_DOMAINS = [
-    {
-        id: '',
-        label: ''
-    }
-];
+// const ACTIVITY_DOMAINS = [
+//     {
+//         id: '',
+//         label: ''
+//     }
+// ];
 
 /*
 
-    STUDENT                 |       CLUB                    |       SPONSOR
+    Student                 |       Club                    |       Sponsor
 -------------------------------------------------------------------------------------------
-    firstName               |       firstName               |       firstName
-    lastName                |       lastName                |       lastName
-    email                   |       email                   |       email
-    password                |       password                |       password
-    passwordConfirmation    |       passwordConfirmation    |       passwordConfirmation
+    FirstName               |       FirstName               |       FirstName
+    LastName                |       LastName                |       LastName
+    Email                   |       Email                   |       Email
+    Password                |       Password                |       Password
 
     university              |       clubName                |       organizationName
     institution             |       university              |       organizationType
@@ -107,8 +109,7 @@ export default class SignUp extends Component {
         super(props);
         this.state = {
             selectedProfileType: '',
-            institutions: [],
-            isAccountCreated: false
+            // institutions: []
         };
     }
 
@@ -120,42 +121,66 @@ export default class SignUp extends Component {
 
     confirmPassword = (rule, value, callback) => {
         const { getFieldValue } = this.props.form;
-        if (value && value !== getFieldValue('password')) {
+        if (value && value !== getFieldValue('Password')) {
             callback('Password is not confirmed');
         }
         callback();
     }
 
-    onUniversitySelectionChange = (universityId) => {
-        const university = UNIVERSITIES.find((university) => university.id === universityId);
-        if (university) {
-            this.setState({
-                institutions: university.institutions
-            });
-            const { resetFields } = this.props.form;
-            resetFields('institution');
-        }
-    }
+    // onUniversitySelectionChange = (universityId) => {
+    //     const university = UNIVERSITIES.find((university) => university.id === universityId);
+    //     if (university) {
+    //         this.setState({
+    //             institutions: university.institutions
+    //         });
+    //         const { resetFields } = this.props.form;
+    //         resetFields('institution');
+    //     }
+    // }
 
     onSignUp = (event) => {
         event.preventDefault();
         this.props.form.validateFields((errors, values) => {
             if (!errors) {
-                this.setState({
-                    isAccountCreated: true
-                });
-                console.log(values);
+                const user = {
+                    Role: this.state.selectedProfileType,
+                    FirstName: values.FirstName,
+                    LastName: values.LastName,
+                    Email: values.Email,
+                    Password: values.Password
+                };
+                axios.post('https://cors-anywhere.herokuapp.com/https://cluby1.herokuapp.com/api/v1/users/register', user).then(
+                    () => {
+                        const credentials = {
+                            Email: values.Email,
+                            Password: values.Password
+                        };
+                        axios.post('https://cors-anywhere.herokuapp.com/https://cluby1.herokuapp.com/api/v1/users/authentificate', credentials).then(
+                            (response) => {
+                                publishCurrentUserUpdate(response.data);
+                                this.props.history.push('/');
+                            }
+                        ).catch(
+                            (error) => {
+                                console.log(error);
+                            }
+                        );
+                    }
+                ).catch(
+                    (error) => {
+                        console.log(error);
+                    }
+                );
             }
         });
     }
 
     render() {
         const selectedProfileType = this.state.selectedProfileType;
-        const isAccountCreated = this.state.isAccountCreated;
-        const universities = UNIVERSITIES.slice(0);
-        const institutions = this.state.institutions;
-        const organizationTypes = ORGANIZATION_TYPES.slice(0);
-        const activityDomains = ACTIVITY_DOMAINS.slice(0);
+        // const universities = UNIVERSITIES.slice(0);
+        // const institutions = this.state.institutions;
+        // const organizationTypes = ORGANIZATION_TYPES.slice(0);
+        // const activityDomains = ACTIVITY_DOMAINS.slice(0);
         const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = this.props.form;
 
         return (
@@ -168,23 +193,23 @@ export default class SignUp extends Component {
                 <div className="column right-column">
                     <div className="website-layout-column-content-container">
                         {
-                            (selectedProfileType.length <= 0 && !isAccountCreated) && 
+                            selectedProfileType.length <= 0 && 
                             <>
                                 <h2>You are?</h2>
-                                <Button className="btn-secondary-outlined" block onClick={() => this.onProfileTypeSelection('STUDENT')}>Student</Button>
-                                <Button className="btn-secondary-outlined" block onClick={() => this.onProfileTypeSelection('CLUB')}>Club</Button>
-                                <Button className="btn-secondary-outlined" block onClick={() => this.onProfileTypeSelection('SPONSOR')}>Sponsor</Button>
+                                <Button className="btn-secondary-outlined" block onClick={() => this.onProfileTypeSelection('Student')}>Student</Button>
+                                <Button className="btn-secondary-outlined" block onClick={() => this.onProfileTypeSelection('Club')}>Club</Button>
+                                <Button className="btn-secondary-outlined" block onClick={() => this.onProfileTypeSelection('Sponsor')}>Sponsor</Button>
                             </>
                         }
                         {
-                            (selectedProfileType.length > 0 && !isAccountCreated) && 
+                            selectedProfileType.length > 0 && 
                             <>
                                 <h2>Create your account</h2>
                                 <Form layout="vertical" onSubmit={this.onSignUp}>
-                                    <Form.Item validateStatus={(isFieldTouched('firstName') && getFieldError('firstName')) ? 'error' : ''} help={(isFieldTouched('firstName') && getFieldError('firstName')) || ''}>
+                                    <Form.Item validateStatus={(isFieldTouched('FirstName') && getFieldError('FirstName')) ? 'error' : ''} help={(isFieldTouched('FirstName') && getFieldError('FirstName')) || ''}>
                                     {
                                         getFieldDecorator(
-                                            'firstName', 
+                                            'FirstName', 
                                             {
                                                 rules: [
                                                     { required: true, whitespace: true, message: 'This field is required' }
@@ -195,10 +220,10 @@ export default class SignUp extends Component {
                                         )
                                     }
                                     </Form.Item>
-                                    <Form.Item validateStatus={(isFieldTouched('lastName') && getFieldError('lastName')) ? 'error' : ''} help={(isFieldTouched('lastName') && getFieldError('lastName')) || ''}>
+                                    <Form.Item validateStatus={(isFieldTouched('LastName') && getFieldError('LastName')) ? 'error' : ''} help={(isFieldTouched('LastName') && getFieldError('LastName')) || ''}>
                                     {
                                         getFieldDecorator(
-                                            'lastName', 
+                                            'LastName', 
                                             {
                                                 rules: [
                                                     { required: true, whitespace: true, message: 'This field is required' }
@@ -209,10 +234,10 @@ export default class SignUp extends Component {
                                         )
                                     }
                                     </Form.Item>
-                                    <Form.Item validateStatus={(isFieldTouched('email') && getFieldError('email')) ? 'error' : ''} help={(isFieldTouched('email') && getFieldError('email')) || ''}>
+                                    <Form.Item validateStatus={(isFieldTouched('Email') && getFieldError('Email')) ? 'error' : ''} help={(isFieldTouched('Email') && getFieldError('Email')) || ''}>
                                     {
                                         getFieldDecorator(
-                                            'email', 
+                                            'Email', 
                                             {
                                                 rules: [
                                                     { required: true, message: 'This field is required' },
@@ -224,10 +249,10 @@ export default class SignUp extends Component {
                                         )
                                     }
                                     </Form.Item>
-                                    <Form.Item validateStatus={(isFieldTouched('password') && getFieldError('password')) ? 'error' : ''} help={(isFieldTouched('password') && getFieldError('password')) || ''}>
+                                    <Form.Item validateStatus={(isFieldTouched('Password') && getFieldError('Password')) ? 'error' : ''} help={(isFieldTouched('Password') && getFieldError('Password')) || ''}>
                                     {
                                         getFieldDecorator(
-                                            'password', 
+                                            'Password', 
                                             {
                                                 rules: [
                                                     { required: true, message: 'This field is required' },
@@ -239,10 +264,10 @@ export default class SignUp extends Component {
                                         )
                                     }
                                     </Form.Item>
-                                    <Form.Item validateStatus={(isFieldTouched('passwordConfirmation') && getFieldError('passwordConfirmation')) ? 'error' : ''} help={(isFieldTouched('passwordConfirmation') && getFieldError('passwordConfirmation')) || ''}>
+                                    <Form.Item validateStatus={(isFieldTouched('PasswordConfirmation') && getFieldError('PasswordConfirmation')) ? 'error' : ''} help={(isFieldTouched('PasswordConfirmation') && getFieldError('PasswordConfirmation')) || ''}>
                                     {
                                         getFieldDecorator(
-                                            'passwordConfirmation', 
+                                            'PasswordConfirmation', 
                                             {
                                                 rules: [
                                                     { required: true, message: 'This field is required' },
@@ -254,8 +279,8 @@ export default class SignUp extends Component {
                                         )
                                     }
                                     </Form.Item>
-                                    {
-                                        (selectedProfileType === 'CLUB') && 
+                                    {/* {
+                                        (selectedProfileType === 'Club') && 
                                         <Form.Item validateStatus={(isFieldTouched('clubName') && getFieldError('clubName')) ? 'error' : ''} help={(isFieldTouched('clubName') && getFieldError('clubName')) || ''}>
                                         {
                                             getFieldDecorator(
@@ -270,9 +295,9 @@ export default class SignUp extends Component {
                                             )
                                         }
                                         </Form.Item>
-                                    }
-                                    {
-                                        (selectedProfileType === 'STUDENT' || selectedProfileType === 'CLUB') && 
+                                    } */}
+                                    {/* {
+                                        (selectedProfileType === 'Student' || selectedProfileType === 'Club') && 
                                         <>
                                             <Form.Item validateStatus={(isFieldTouched('university') && getFieldError('university')) ? 'error' : ''} help={(isFieldTouched('university') && getFieldError('university')) || ''}>
                                             {
@@ -341,9 +366,9 @@ export default class SignUp extends Component {
                                                 </Form.Item>
                                             }
                                         </>
-                                    }
-                                    {
-                                        (selectedProfileType === 'SPONSOR') && 
+                                    } */}
+                                    {/* {
+                                        (selectedProfileType === 'Sponsor') && 
                                         <>
                                             <Form.Item validateStatus={(isFieldTouched('organizationName') && getFieldError('organizationName')) ? 'error' : ''} help={(isFieldTouched('organizationName') && getFieldError('organizationName')) || ''}>
                                             {
@@ -422,14 +447,13 @@ export default class SignUp extends Component {
                                             }
                                             </Form.Item>
                                         </>
-                                    }
+                                    } */}
                                     <Form.Item>
                                         <Button className="btn-secondary-solid" block htmlType="submit" disabled={hasErrors(getFieldsError())}>Sign up</Button>
                                     </Form.Item>
                                 </Form>
                             </>
                         }
-                        { isAccountCreated && <h2>Welcome to Cluby!</h2> }
                     </div>
                 </div>
             </div>

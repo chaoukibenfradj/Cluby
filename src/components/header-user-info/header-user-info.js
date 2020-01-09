@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 import { Avatar, Popover, Button, Divider } from 'antd';
 
+import { publishCurrentUserUpdate } from '../app/app.js';
+
 
 export default class HeaderUserInfo extends Component {
 
@@ -30,6 +32,11 @@ export default class HeaderUserInfo extends Component {
         return initials;
     }
 
+    onSignOut = () => {
+        publishCurrentUserUpdate(null);
+        this.props.history.push('/sign-in');
+    }
+
     render() {
         return (
             <Popover
@@ -42,7 +49,7 @@ export default class HeaderUserInfo extends Component {
                         <Divider />
                         <div className="popover-actions">
                             <Button type="link">Edit profile</Button>
-                            <Button type="link">Sign out</Button>
+                            <Button type="link" onClick={this.onSignOut}>Sign out</Button>
                         </div>
                     </div>
                 }

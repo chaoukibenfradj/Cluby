@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 
 import { Form, Input, Button } from 'antd';
 
+import axios from 'axios';
+
 import './sign-in.scss';
+import { publishCurrentUserUpdate } from '../app/app.js';
 
 function hasErrors(fieldsError) {
     return Object.keys(fieldsError).some(field => fieldsError[field]);
@@ -19,15 +22,24 @@ export default class SignIn extends Component {
         event.preventDefault();
         this.props.form.validateFields((errors, values) => {
             if (!errors) {
-                console.log(values);
+                axios.post('https://cors-anywhere.herokuapp.com/https://cluby1.herokuapp.com/api/v1/users/authentificate', values).then(
+                    (response) => {
+                        publishCurrentUserUpdate(response.data);
+                        this.props.history.push('/');
+                    }
+                ).catch(
+                    (error) => {
+                        console.log(error);
+                    }
+                );
             }
         });
     }
 
     render() {
         const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = this.props.form;
-        const emailError = isFieldTouched('email') && getFieldError('email');
-        const passwordError = isFieldTouched('password') && getFieldError('password');
+        const emailError = isFieldTouched('Email') && getFieldError('Email');
+        const passwordError = isFieldTouched('Password') && getFieldError('Password');
 
         return (
             <div className="two-columns-container">
@@ -43,7 +55,7 @@ export default class SignIn extends Component {
                             <Form.Item validateStatus={emailError ? 'error' : ''} help={emailError || ''}>
                             {
                                 getFieldDecorator(
-                                    'email', 
+                                    'Email', 
                                     {
                                         rules: [
                                             { required: true, message: 'This field is required' },
@@ -58,7 +70,7 @@ export default class SignIn extends Component {
                             <Form.Item validateStatus={passwordError ? 'error' : ''} help={passwordError || ''}>
                             {
                                 getFieldDecorator(
-                                    'password', 
+                                    'Password', 
                                     {
                                         rules: [{ required: true, message: 'This field is required' }]
                                     }
