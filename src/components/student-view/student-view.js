@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './../../assets/styles/main.scss';
-import { Col, Row, Card, Skeleton, Input, Button, Select } from 'antd';
+import { Col, Row, Card, Skeleton, Input, Button, Select, Divider } from 'antd';
 import { getAllEvents } from '../../services/event.service';
 import placeholder from './../../assets/imgs/placeholder.png';
 import separator from './../../assets/imgs/separator.png';
@@ -18,8 +18,6 @@ export default class StudentView extends Component {
             isLoading: true,
         };
     }
-
-
 
     createSkeleton = () => {
         let row = []
@@ -56,10 +54,10 @@ export default class StudentView extends Component {
                         <Card
                             onClick={() => { this.props.history.push(`/event/${element.id}`) }}
                             hoverable
-                            style={{ width: '25vw' }}
+                            style={{ width: '25vw', borderRadius : '20px'}}
                             cover={<img alt="event-card" src={element.photo} onError={(e) => { e.target.src = placeholder }} />}
                         >
-                            <Meta title={element.name} description={element.description} />
+                            <Meta title={element.name} className="text-limit" description={element.description} />
                         </Card>
                     </Col>
                 )
@@ -115,9 +113,7 @@ export default class StudentView extends Component {
                     </div>
 
                 </div>
-                <div className="separator">
-                    <img src={separator} style={{ width: '35vw' }}></img>
-                </div>
+                <Divider>Events</Divider>
                 <div>
                     {(this.state.listEvents && this.state.listEvents.length > 0 && !this.state.isLoading) &&
                         this.createEventRows(this.state.listEvents)
