@@ -1,0 +1,27 @@
+.search-section {
+    margin: 2.5vw;
+    display: flex;
+}
+
+.search-section div {
+    margin-right: 2vw;
+}
+
+.events-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.separator {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.text-limit {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
