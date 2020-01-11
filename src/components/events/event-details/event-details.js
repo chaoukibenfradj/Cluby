@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { getEventById, studentCancelParticipation, nikomk, addStudentParticipation } from '../../../services/event.service';
+import { getEventById, studentCancelParticipation, addStudentParticipation } from '../../../services/event.service';
 import './../../../assets/styles/main.scss';
 import './event-details.scss';
 import placeholder from './../../../assets/imgs/placeholder.png';

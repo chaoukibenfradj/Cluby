@@ -24,8 +24,9 @@ export default class SignIn extends Component {
             if (!errors) {
                 axios.post('https://cors-anywhere.herokuapp.com/https://cluby1.herokuapp.com/api/v1/users/authentificate', values).then(
                     (response) => {
-                        publishCurrentUserUpdate(response.data);
+                        console.log(response);
                         this.props.history.push('/');
+                        publishCurrentUserUpdate(response.data);
                     }
                 ).catch(
                     (error) => {
@@ -53,31 +54,31 @@ export default class SignIn extends Component {
                         <h2>Sign in to your account</h2>
                         <Form layout="vertical" onSubmit={this.onSignIn}>
                             <Form.Item validateStatus={emailError ? 'error' : ''} help={emailError || ''}>
-                            {
-                                getFieldDecorator(
-                                    'Email', 
-                                    {
-                                        rules: [
-                                            { required: true, message: 'This field is required' },
-                                            { type: 'email', message: 'Invalid email address' }
-                                        ]
-                                    }
-                                )(
-                                    <Input placeholder="Email address" />,
-                                )
-                            }
+                                {
+                                    getFieldDecorator(
+                                        'Email',
+                                        {
+                                            rules: [
+                                                { required: true, message: 'This field is required' },
+                                                { type: 'email', message: 'Invalid email address' }
+                                            ]
+                                        }
+                                    )(
+                                        <Input placeholder="Email address" />,
+                                    )
+                                }
                             </Form.Item>
                             <Form.Item validateStatus={passwordError ? 'error' : ''} help={passwordError || ''}>
-                            {
-                                getFieldDecorator(
-                                    'Password', 
-                                    {
-                                        rules: [{ required: true, message: 'This field is required' }]
-                                    }
-                                )(
-                                    <Input placeholder="Password" type="password" />,
-                                )
-                            }
+                                {
+                                    getFieldDecorator(
+                                        'Password',
+                                        {
+                                            rules: [{ required: true, message: 'This field is required' }]
+                                        }
+                                    )(
+                                        <Input placeholder="Password" type="password" />,
+                                    )
+                                }
                             </Form.Item>
                             <Form.Item>
                                 <Button className="btn-secondary-solid" block htmlType="submit" disabled={hasErrors(getFieldsError())}>Sign in</Button>
