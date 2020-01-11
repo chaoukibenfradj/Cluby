@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './../../assets/styles/main.scss';
 import { Col, Row, Card, Skeleton, Input, Icon, Select, Divider } from 'antd';
-import './../../services/event.service' ; 
+import './../../services/event.service';
 import placeholder from './../../assets/imgs/placeholder.png';
 import './student-view.scss';
 import { getAllEvents } from './../../services/event.service';
@@ -100,7 +100,7 @@ export default class Events extends Component {
         this.setState({ listEventsSearch: this.state.listEventsInit });
     }
 
-  
+
     onChange(value) {
         console.log(value);
         if (value === "--") {
