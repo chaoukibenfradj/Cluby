@@ -3,8 +3,9 @@ import { getEventById, studentCancelParticipation, addStudentParticipation } fro
 import './../../../assets/styles/main.scss';
 import './event-details.scss';
 import placeholder from './../../../assets/imgs/placeholder.png';
-import { Button, Icon, Divider, Skeleton, Card } from 'antd';
+import { Button, Icon, Divider, Skeleton, Card, notification } from 'antd';
 import './../../../services/event.service';
+const { Meta } = Card;
 
 export default class EventDetails extends Component {
 
@@ -40,9 +41,34 @@ export default class EventDetails extends Component {
         })
     }
 
+    openSuccessNotification = () => {
+        notification.success({
+            message: 'Done',
+            description:
+                'Your participation has been saved !',
+            style: {
+                width: 250,
+                marginLeft: 335 - 250,
+            },
+        });
+    };
+
+    openErrorNotification = () => {
+        notification.warn({
+            message: 'Done',
+            description:
+                'Your participation has been cancelled !',
+            style: {
+                width: 250,
+                marginLeft: 335 - 250,
+            },
+        });
+    };
+
     cancelStudentParticipation() {
         studentCancelParticipation(this.props.match.params.id, this.state.currentUser.id)
             .then(data => {
+                this.openErrorNotification();
                 this.getEventByIdRefresh();
                 console.log(data);
             }).catch(err => {
@@ -55,6 +81,7 @@ export default class EventDetails extends Component {
             .then(data => {
                 this.getEventByIdRefresh();
                 console.log(data);
+                this.openSuccessNotification();
             }).catch(err => {
                 console.log(err);
             })
@@ -106,16 +133,16 @@ export default class EventDetails extends Component {
                     <div className="right-section">
                         {
                             (this.state.currentUser) ?
-                                (this.state.selectedEvent.listParticipation && this.state.selectedEvent.listParticipation.map(element => { return element.userId }).indexOf(this.state.currentUser.id)) ?
+                                (!this.state.selectedEvent.listParticipation || this.state.selectedEvent.listParticipation.map(element => { return element.userId }).indexOf(this.state.currentUser.id) == -1) ?
                                     <Button className="btn-secondary-solid" onClick={() => { this.addStdntParticipation() }}>Participate</Button>
                                     :
                                     <Button type="danger" onClick={() => { this.cancelStudentParticipation() }}>Cancel participation</Button>
-                                : "" 
+                                : ""
 
-                    }
+                        }
 
                         <span className="nb-participant">
-                            {(this.state.selectedEvent.listParticipation) ? this.state.selectedEvent.listParticipation.length : '0'}  ont participé
+                            {(this.state.selectedEvent.listParticipation) ? this.state.selectedEvent.listParticipation.length : '0'} participated
                     </span>
                     </div>
 
