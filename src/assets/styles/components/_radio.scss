@@ -1,0 +1,35 @@
+.ant-radio-group {
+
+    .ant-radio-button-wrapper {
+        color: map-get($colors, secondary);
+        background-color: map-get($colors, background) !important;
+        border-color: map-get($colors, secondary) !important;
+
+        &:hover,
+        &:active,
+        &:focus {
+            color: map-get($colors, white);
+            background-color: map-get($colors, secondary-tint) !important;
+        }
+
+        &:first-child {
+            border-radius: 24px 0px 0px 24px;
+        }
+
+        &:last-child {
+            border-radius: 0px 24px 24px 0px;
+        }
+    }
+
+    .ant-radio-button-wrapper-checked {
+        color: map-get($colors, white);
+        background-color: map-get($colors, secondary) !important;
+        border-color: map-get($colors, secondary) !important;
+
+        &:hover,
+        &:active,
+        &:focus {
+            color: map-get($colors, white);
+        }
+    }
+}

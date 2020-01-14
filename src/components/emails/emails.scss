@@ -1,0 +1,147 @@
+@import '../../assets/styles/main.scss';
+
+
+.emails-selector-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: 24px;
+
+    .ant-radio-group {
+
+        .ant-radio-button-wrapper {
+            width: 200px;
+            text-align: center;
+        }
+    }
+}
+
+.emails-card {
+    padding: 24px 0px 24px 0px !important;
+    display: flex;
+    flex-direction: row;
+    position: relative;
+
+    .emails-list-container {
+        flex: 1;
+        min-height: 500px;
+        max-height: 500px;
+        overflow-y: scroll;
+        
+        &::-webkit-scrollbar {
+            width: 0;
+        }
+    
+        .selected-email {
+            border-right: 4px solid map-get($colors, secondary);
+        }
+
+        .email-item-container {
+            box-sizing: border-box;
+
+            .email-item {
+                cursor: pointer;
+                padding: 24px;
+                transition: 0.3 ease;
+                
+                &:hover {
+                    background: map-get($colors, black-light);
+                }
+
+                .row {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+
+                    .subject {
+                        flex: 1;
+                        min-width: 0;
+                        padding-right: 48px;
+
+                        h4 {
+                            margin-bottom: 0;
+                            white-space: nowrap;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                        }
+                    }
+
+                    .sent-date {
+                        text-align: end;
+                        white-space: nowrap;
+                    }
+                }
+
+                .sender {
+                    font-size: 16px;
+                }
+
+                .content-excerpt {
+                    margin-top: 12px;
+                    max-width: 300px;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+            }
+
+            .even {
+                background: map-get($colors, background);
+            }
+
+            .odd {
+                background: map-get($colors, black-lightest);
+            }
+        }
+    }
+
+    .email-details-container {
+        flex: 0;
+        min-height: 500px;
+        max-height: 500px;
+        overflow-y: scroll;
+        transition: 0.3s ease;
+
+        &::-webkit-scrollbar {
+            width: 0;
+        }
+
+        .email-details {
+            padding: 24px;
+
+            .subject {
+                margin-bottom: 0;
+            }
+    
+            .row {
+                margin-top: 12px;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+    
+                .sender {
+                    flex: 1;
+                    padding-right: 48px;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+    
+                .sent-date {
+                    text-align: end;
+                    white-space: nowrap;
+                }
+            }
+    
+            .content {
+                font-size: 16px;
+                margin: 48px 0px;
+            }
+        }
+    }
+
+    button {
+        right: 0;
+        bottom: 0;
+    }
+}
