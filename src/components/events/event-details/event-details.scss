@@ -29,10 +29,14 @@
     }
 }
 
+.ant-modal-confirm-content{
+    margin-left: 0 !important;
+}
+
 .description-section {
     width: 95%;
     margin-top: 5vh;
-    font-weight: 500;
+    font-weight: 400;
     font-size: 18px;
     display: flex ; 
     flex-direction: row;
@@ -48,8 +52,12 @@
         margin-right: 8px;
         color : map-get($colors, secondary) ;
     }
+    .detail-item{
+        font-weight: 500;
+        font-size: 16px;
+        display: flex ; 
+        flex-direction: row;
+        align-items: center;
+    }
 }
 
-h4 {
-    font-weight: 400;
-}

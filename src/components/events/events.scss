@@ -1,0 +1,49 @@
+@import '../../assets/styles/main.scss';
+
+.search-section {
+    margin: 2.5vw;
+    display: flex;
+}
+
+.search-section div {
+    margin-right: 2vw;
+}
+
+.events-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.separator {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.text-limit {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+.event-details-card {
+    display: flex;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: baseline;
+    .event-title {
+        color: map-get($colors, secondary);
+    }
+
+    .event-price {
+        font-weight: 600;
+        color: map-get($colors, secondary);
+    }
+
+    .event-date {
+        font-weight: 100;
+        margin-left: 5px;
+    }
+}

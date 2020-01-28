@@ -25,11 +25,6 @@ const CLUB_MAIN_MENU_ITEMS = [
         children: [
             {
                 key: '/events/club',
-                label: 'Add Event',
-                link: '/events/add'
-            },
-            {
-                key: '/events/club',
                 label: 'Club events',
                 link: '/events/club'
             },
@@ -69,6 +64,7 @@ export default class BackofficeLayout extends Component {
             isSiderCollapsed: false
         };
     }
+
 
     toggleSider = () => {
         this.setState({ isSiderCollapsed: !this.state.isSiderCollapsed });

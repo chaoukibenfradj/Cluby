@@ -6,18 +6,31 @@ import Events from '../events';
 import Clubs from '../clubs';
 import Sponsors from '../sponsors';
 import Emails from '../emails';
-import AddEvent from '../events/add-event/';
+import EventDetails from '../events/event-details/event-details';
+import { getClubByUserId } from '../../services/club.service';
 
 
 export default class ClubView extends Component {
 
+    constructor(props){
+        super(props) ;
+    }
+    componentDidMount(){
+        console.log(this.props);
+        var currentUser = JSON.parse(localStorage.getItem('CURRENT_USER'));
+        getClubByUserId(currentUser.id).then(data=>{
+            localStorage.setItem('clubId', data.data.id);
+        }).catch(err=>{
+            console.log('Fetching Club Info error : ', err) ; 
+        })
+    }
     render() {
         return (
             <Switch>
                 <Route exact path={`/`} component={Dashboard} />
-                <Route path={`/events/club`} component={Events} />
-                <Route path={`/events/add`} component={AddEvent} />
-                <Route path={`/events/all`} component={Events} />
+                <Route path={`/events/club`} component={(props) => <Events {...props} fetchType={'club'} />} />
+                <Route path={`/events/event-details/:id`} component={EventDetails}   />
+                <Route path={`/events/all`} component={(props) => <Events {...props} fetchType={'all'} />}  />
                 <Route path={`/clubs`} component={Clubs} />
                 <Route path={`/sponsors`} component={Sponsors} />
                 <Route path={`/emails`} component={Emails} />

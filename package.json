@@ -6,6 +6,8 @@
     "dependencies": {
         "antd": "3.24.3",
         "axios": "^0.19.1",
+        "firebase": "^7.6.2",
+        "moment": "^2.24.0",
         "node-sass": "^4.13.0",
         "react": "16.11.0",
         "react-dom": "16.11.0",
