@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
 import './../../assets/styles/main.scss';
-import { Col, Row, Card, Skeleton, Input, Icon, Select, Divider } from 'antd';
+import { Col, Row, Card, Skeleton, Icon, Divider } from 'antd';
 import './../../services/sponsor.service';
 import placeholder from './../../assets/imgs/placeholder.png';
 import './sponsor.scss';
@@ -58,7 +58,7 @@ export default class Sponsors extends Component {
                             style={{ width: '25vw', borderRadius: '20px' }}
                             cover={<img alt="sponsor-card" src={element.photo} onError={(e) => { e.target.src = placeholder }} />}
                         >
-                            <Meta title={element.name} className="text-limit" description={element.description} />
+                            <Meta title={element.entreprise} className="text-limit" description={element.interests} />
                         </Card>
                     </Col>
                 )
