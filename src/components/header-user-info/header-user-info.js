@@ -37,6 +37,10 @@ export default class HeaderUserInfo extends Component {
         this.props.history.push('/sign-in');
     }
 
+    onEditProfile = () => {
+        this.props.history.push('/edit-profile');
+    }
+
     render() {
         return (
             <Popover
@@ -48,7 +52,7 @@ export default class HeaderUserInfo extends Component {
                         </div>
                         <Divider />
                         <div className="popover-actions">
-                            <Button type="link">Edit profile</Button>
+                            <Button type="link" onClick={this.onEditProfile}>Edit profile</Button>
                             <Button type="link" onClick={this.onSignOut}>Sign out</Button>
                         </div>
                     </div>

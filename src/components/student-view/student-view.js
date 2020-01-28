@@ -5,6 +5,7 @@ import EventDetails from '../events/event-details';
 import Events from '../events';
 import SignIn from '../sign-in/sign-in';
 import SignUp from '../sign-up/sign-up';
+import EditProfile from '../edit-profile';
 
 
 export default class StudentView extends Component {
@@ -17,6 +18,7 @@ export default class StudentView extends Component {
                 <Route path={`/clubs/club-details/:id`} component={ClubDetails} />
                 <Route path={`/sign-in`} component={SignIn} />
                 <Route path={`/sign-up`} component={SignUp} />
+                <Route path={`/edit-profile`} component={EditProfile} />
             </Switch>
 
         )

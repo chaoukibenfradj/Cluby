@@ -71,6 +71,7 @@ export default class Sponsors extends Component {
     componentDidMount() {
         this.setState({ isLoading: true });
         getAllSponsors().then(data => {
+            console.log(data.data);
             this.setState({ listSponsorsInit: data.data, listSponsorsSearch: data.data });
             this.setState({ isLoading: false });
         }).catch(err => {

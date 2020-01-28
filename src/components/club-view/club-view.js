@@ -7,6 +7,7 @@ import Clubs from '../clubs';
 import Sponsors from '../sponsors';
 import Emails from '../emails';
 import AddEvent from '../events/add-event/';
+import EditProfile from '../edit-profile';
 
 
 export default class ClubView extends Component {
@@ -21,6 +22,7 @@ export default class ClubView extends Component {
                 <Route path={`/clubs`} component={Clubs} />
                 <Route path={`/sponsors`} component={Sponsors} />
                 <Route path={`/emails`} component={Emails} />
+                <Route path={`/edit-profile`} component={EditProfile} />
             </Switch>
         )
     }
