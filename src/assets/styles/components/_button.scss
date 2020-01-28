@@ -32,3 +32,16 @@
         border-color: map-get($colors, secondary);
     }
 }
+
+.btn-circle {
+    height: 42px;
+    width: 42px;
+    line-height: 42px;
+    padding: 0px;
+    border-radius: 50%;
+}
+
+.btn-fab {
+    position: absolute;
+    margin: 24px;
+}
