@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import './../../assets/styles/main.scss';
-import { Col, Row, Card, Skeleton, Input, Icon, Select, Divider } from 'antd';
+import { Col, Row, Card, Skeleton, Input, Icon, Select, Divider, Empty } from 'antd';
 import './../../services/event.service';
 import placeholder from './../../assets/imgs/placeholder.png';
-import './student-view.scss';
-import { getAllEvents } from './../../services/event.service';
-
+import './events.scss';
+import { getAllEvents, getEventByClubId } from './../../services/event.service';
+import AddEvent from './add-event';
+import moment from 'moment';
 const { Option } = Select;
 const { Meta } = Card;
 const { Search } = Input;
@@ -18,6 +19,8 @@ export default class Events extends Component {
             listEventsInit: [],
             listEventsSearch: [],
             isLoading: true,
+            currentUser: JSON.parse(localStorage.getItem('CURRENT_USER')),
+            fetchType: props.fetchType
         };
     }
 
@@ -56,10 +59,28 @@ export default class Events extends Component {
                         <Card
                             onClick={() => { this.props.history.push(`/events/event-details/${element.id}`) }}
                             hoverable
-                            style={{ width: '25vw', borderRadius: '20px' }}
+                            style={{ width: '85%', borderRadius: '20px' }}
                             cover={<img alt="event-card" src={element.photo} onError={(e) => { e.target.src = placeholder }} />}
                         >
-                            <Meta title={element.name} className="text-limit" description={element.description} />
+                            <Meta title={
+                                <div className="event-details-card">
+                                    <span className="event-title">
+                                        {element.name}
+                                    </span>
+                                    <span className="event-price">
+                                        {element.price} D.T.
+                                    </span>
+                                </div>
+                            } description={
+                                <div className="event-details-card">
+                                    <span className="text-limit">
+                                        {element.description}
+                                    </span>
+                                    <span className="event-date">
+                                        Still {moment(element.beginDate).diff(Date.now(), "days")} days !
+                                    </span>
+                                </div>
+                            } />
                         </Card>
                     </Col>
                 )
@@ -71,7 +92,21 @@ export default class Events extends Component {
 
     componentDidMount() {
         this.setState({ isLoading: true });
+        switch (this.state.fetchType) {
+            case 'all':
+                this.getEvents();
+                break;
+            case 'club':
+                this.getClubEvents();
+                break;
+            default:
+                this.getEvents();
+                break;
+        }
+    }
+    getEvents() {
         getAllEvents().then(data => {
+            console.log(data);
             this.setState({ listEventsInit: data.data, listEventsSearch: data.data });
             this.setState({ isLoading: false });
         }).catch(err => {
@@ -79,6 +114,18 @@ export default class Events extends Component {
             console.log(err);
         })
     }
+
+    getClubEvents() {
+        getEventByClubId(localStorage.getItem('clubId')).then(data => {
+            console.log(data);
+            this.setState({ listEventsInit: data.data, listEventsSearch: data.data });
+            this.setState({ isLoading: false });
+        }).catch(err => {
+            this.setState({ isLoading: false });
+            console.log(err);
+        })
+    }
+
     onSearchInput = (value) => {
         console.log(value);
         if (value.length == 0) {
@@ -100,7 +147,6 @@ export default class Events extends Component {
         this.setState({ listEventsSearch: this.state.listEventsInit });
     }
 
-
     onChange(value) {
         console.log(value);
         if (value === "--") {
@@ -121,6 +167,12 @@ export default class Events extends Component {
     render() {
         return (
             <div style={{ padding: '30px', width: '100%' }} className="website-layout-view-container events-list">
+                <div>
+                    {(this.state.currentUser && this.state.currentUser.role === 'Club') ?
+                        < AddEvent />
+                        : ""
+                    }
+                </div>
                 <div className="search-section">
                     <div><Search
                         placeholder="Search"
@@ -158,10 +210,7 @@ export default class Events extends Component {
                     {(this.state.listEventsSearch && this.state.listEventsSearch.length > 0 && !this.state.isLoading) ?
                         this.createEventRows(this.state.listEventsSearch)
                         : (!this.state.isLoading && this.state.listEventsSearch.length === 0)
-                            ? <div className="center-div">
-                                <Icon className="error-icon" type="frown" />
-                                No Events
-                            </div>
+                            ? <Empty />
                             : ""
 
                     }

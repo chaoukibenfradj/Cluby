@@ -7,3 +7,6 @@ export const getAllClubs = async () => {
 export const getClubById = async (id) => {
     return await axios.get(BASE_URL + 'api/v1/clubs/' + id);
 }
+export const getClubByUserId = (id)=>{
+    return axios.get(BASE_URL + `api/v1/clubs/user/${id}`) ;
+}

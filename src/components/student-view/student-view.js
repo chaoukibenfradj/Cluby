@@ -6,9 +6,21 @@ import Events from '../events';
 import SignIn from '../sign-in/sign-in';
 import SignUp from '../sign-up/sign-up';
 import EditProfile from '../edit-profile';
+import axios from 'axios' ; 
+import { BASE_URL } from '../../const';
 
 
 export default class StudentView extends Component {
+
+    componentDidMount(){
+        axios.get(BASE_URL + 'api/v1/students/user/' + JSON.parse(localStorage.getItem('CURRENT_USER')).id)
+        .then(data=>{
+            localStorage.setItem('studentId', data.data.id);
+        })
+        .catch(err=>{
+            console.log(err);
+        })
+    }
 
     render() {
         return (
