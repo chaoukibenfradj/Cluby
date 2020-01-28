@@ -48,6 +48,10 @@
             color: map-get($colors, secondary);
         }
     }
+
+    .anticon {
+        font-size: 20px;
+    }
 }
 
 .clickable {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 
-import { Layout } from 'antd';
+import { Layout, Icon } from 'antd';
 
 import HeaderUserInfo from '../header-user-info';
 import StudentView from '../student-view';
@@ -35,6 +35,14 @@ export default class WebsiteLayout extends Component {
                                 </Link>
                             </div>
                             <div className="space-filler"></div>
+                            {
+                                (this.props.currentUser && this.props.currentUser.role === 'Sponsor') &&
+                                <div className="header-item clickable">
+                                    <Link to="/emails">
+                                        <Icon type="mail" />
+                                    </Link>
+                                </div>
+                            }
                             {
                                 this.props.currentUser ? (
                                     <div className="header-item clickable">

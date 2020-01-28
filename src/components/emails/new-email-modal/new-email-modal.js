@@ -20,7 +20,7 @@ export default class NewEmailModal extends Component {
                     <Form.Item>
                         {
                             getFieldDecorator(
-                                'receiverEmail',
+                                'Receiver',
                                 {
                                     rules: [
                                         { required: true, message: 'This field is required' },
@@ -35,7 +35,7 @@ export default class NewEmailModal extends Component {
                     <Form.Item>
                         {
                             getFieldDecorator(
-                                'subject',
+                                'Subject',
                                 {
                                     rules: [
                                         { required: true, message: 'This field is required' }
@@ -49,7 +49,7 @@ export default class NewEmailModal extends Component {
                     <Form.Item>
                         {
                             getFieldDecorator(
-                                'content',
+                                'Content',
                                 {
                                     rules: [
                                         { required: true, message: 'This field is required' }
