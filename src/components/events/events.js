@@ -14,9 +14,7 @@ const { Search } = Input;
 
 export default class Events extends Component {
     constructor(props) {
-        console.log('props', props);
         super(props);
-
         this.state = {
             listEventsInit: [],
             listEventsSearch: [],

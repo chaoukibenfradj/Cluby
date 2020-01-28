@@ -49,3 +49,7 @@ export const getEventByClubId = async (id) => {
 export const getListParticipators = async (idEvent) => {
     return await axios.get(BASE_URL + `api/v1/events/participationEvent/${idEvent}`);
 }
+
+export const deleteEvent = async (idEvent) =>{
+    return await axios.delete(BASE_URL + `api/v1/events/${idEvent}`);
+}

@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { getEventById, studentCancelParticipation, addStudentParticipation, getListParticipators } from '../../../services/event.service';
+import { getEventById, studentCancelParticipation, addStudentParticipation, getListParticipators, deleteEvent } from '../../../services/event.service';
 import './../../../assets/styles/main.scss';
 import './event-details.scss';
 import moment from 'moment';
 import placeholder from './../../../assets/imgs/placeholder.png';
 import { Button, Icon, Divider, Skeleton, Modal, notification, List, Avatar } from 'antd';
 import './../../../services/event.service';
+import AddEvent from './../add-event';
 
 export default class EventDetails extends Component {
 
@@ -49,17 +50,15 @@ export default class EventDetails extends Component {
         this.getAllParticipators();
         getEventById(eventId).then(data => {
             this.setState({ selectedEvent: data.data });
-
         }).catch(err => {
             console.log(err);
         })
     }
 
-    openSuccessNotification = () => {
+    openSuccessNotification = (message) => {
         notification.success({
             message: 'Done',
-            description:
-                'Your participation has been saved !',
+            description: message,
             style: {
                 width: 250,
                 marginLeft: 335 - 250,
@@ -67,11 +66,10 @@ export default class EventDetails extends Component {
         });
     };
 
-    openErrorNotification = () => {
+    openErrorNotification = (message) => {
         notification.warn({
             message: 'Done',
-            description:
-                'Your participation has been cancelled !',
+            description: message,
             style: {
                 width: 250,
                 marginLeft: 335 - 250,
@@ -82,7 +80,7 @@ export default class EventDetails extends Component {
     cancelStudentParticipation() {
         studentCancelParticipation(this.props.match.params.id, localStorage.getItem('studentId'))
             .then(data => {
-                this.openErrorNotification();
+                this.openErrorNotification('Your participation has been cancelled !');
                 this.getEventByIdRefresh();
                 console.log(data);
             }).catch(err => {
@@ -90,12 +88,13 @@ export default class EventDetails extends Component {
             })
     }
 
+
     addStdntParticipation() {
         addStudentParticipation(this.props.match.params.id, localStorage.getItem('studentId'))
             .then(data => {
                 this.getEventByIdRefresh();
                 console.log(data);
-                this.openSuccessNotification();
+                this.openSuccessNotification('Your participation has been saved !');
             }).catch(err => {
                 console.log(err);
             })
@@ -124,14 +123,41 @@ export default class EventDetails extends Component {
             onOk() { },
 
         })
-    };
+    }
+
+    showDeleteConfirm() {
+        Modal.confirm({
+            title: 'Confirm Action',
+            content: 'Are you sure delete this task?',
+            okText: 'Yes',
+            okType: 'danger',
+            cancelText: 'No',
+            onOk: () => {
+                deleteEvent(this.props.match.params.id)
+                    .then(data => {
+                        this.openSuccessNotification('The event has been deleted successfully !');
+                        this.props.history.push('/events/club');
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        this.props.history.push('/events/club');
+                    })
+            },
+            onCancel() {
+                console.log('Cancel');
+            },
+        });
+    }
 
 
     render() {
         return (
-            (!this.state.isLoading) ?
+            <>
+            {(!this.state.isLoading) ?
                 <div style={{ padding: '30px', width: '100%' }} className="website-layout-view-container">
-
+                    {(this.state.currentUser && this.state.currentUser.role === 'Club' && this.state.clubId === this.state.selectedEvent.club.id) ? 
+                    <AddEvent isUpdate="true" eventId={this.props.match.params.id} />
+                    :''}
                     <div className="event-details">
                         <div>
                             <h2>{this.state.selectedEvent.name}</h2>
@@ -184,7 +210,10 @@ export default class EventDetails extends Component {
                         }
                         {
                             (this.state.currentUser && this.state.currentUser.role === 'Club' && this.state.clubId === this.state.selectedEvent.club.id) ?
-                                <Button className="btn-secondary-solid" onClick={this.showListPartModal}>List Participators</Button>
+                                <>
+                                    <Button className="btn-secondary-solid" onClick={this.showListPartModal}>List Participators</Button>
+                                    <Button style={{ height: '30px', lineHeight: 0 }} className="nb-participant" type="danger" onClick={() => { this.showDeleteConfirm() }}>Delete</Button>
+                                </>
                                 : ""
                         }
                         <span className="nb-participant">
@@ -201,9 +230,8 @@ export default class EventDetails extends Component {
                     </Skeleton>
                     <Skeleton loading={this.state.isLoading} active >
                     </Skeleton>
-
-                </div>
-
+                </div>}
+                </>
         )
     }
 
