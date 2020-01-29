@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { Drawer, Form, Button, Col, Row, Input, Select, DatePicker, Icon, Upload, Calendar, Modal, Badge } from 'antd';
 import moment from 'moment';
-import { addEvent, getAllEvents, getEventById } from '../../../services/event.service';
+import { addEvent, getAllEvents, getEventById, updateEvent } from '../../../services/event.service';
 import { getAllInstitutes } from '../../../services/institute.service';
 import { getAllDomains } from '../../../services/domain.service';
 import { uploadEventCover } from '../../../services/firebase.service';
 import './add-event.scss';
+import { checkChangedValues } from '../../../const';
 
 const { Option } = Select;
 
@@ -19,43 +20,57 @@ class AddEvent extends Component {
 
     constructor(props) {
         super(props);
-        console.log("Add Event props :",props);
+        console.log("Add Event props :", props);
         this.state = {
             visible: false,
             clubId: localStorage.getItem('clubId'),
             listInstitutes: [],
             eventsInSameDate: [],
-            isUpdate: (this.props.isUpdate && this.props.isUpdate==='true') ? true:false,
+            isUpdate: (this.props.isUpdate && this.props.isUpdate === 'true') ? true : false,
             listEvents: [],
             listDomains: [],
-            selectedEvent : {},
+            selectedEvent: {},
             isLoading: false
         };
     }
 
     componentDidMount() {
-        if(this.props.isUpdate){
+        console.log(this.props);
+        if (this.props.isUpdate) {
             getEventById(this.props.eventId)
-            .then(data=>{
-                this.setState({
-                    selectedEvent : data.data
-                })
-                console.log("Update component for event " , this.state.selectedEvent );
-                this.props.form.setFieldsValue({
-                    
-                })
-            }).catch(err=>{
-                console.log('Error', err);
-            });
+                .then(data => {
+                    this.setState({
+                        selectedEvent: data.data
+                    })
+                    console.log("Update component for event ", this.state.selectedEvent);
+                    this.props.form.setFieldsValue({
+                        name: data.data.name,
+                        dateTime: [moment(data.data.beginDate), moment(data.data.endDate)],
+                        price: data.data.price,
+                        description: data.data.description,
+                        location: data.data.location,
+                        domain: data.data.domain.id,
+                        institute: data.data.institute.id,
+                        NumberParticipation: data.data.numberParticipation
+                    })
+                }).catch(err => {
+                    console.log('Error', err);
+                });
         }
         getAllInstitutes().then(data => {
             this.setState({ listInstitutes: data.data })
         }).catch(err => {
             console.log(err);
         })
-        this.setState({
-            listDomains: getAllDomains()
+        getAllDomains().then(data => {
+
+            this.setState({
+                listDomains: data.data
+            })
         })
+            .catch(err => {
+                console.log(err);
+            })
         getAllEvents().then(data => {
             console.log('List Events => ', data);
             this.setState({ listEvents: data.data });
@@ -85,32 +100,84 @@ class AddEvent extends Component {
     };
 
     onAddEvent = (event) => {
-        this.setState({
-            isLoading: true
-        })
         event.preventDefault();
-        console.log("Adding event");
-        this.props.form.validateFields((errors, values) => {
-            if (!errors) {
-                uploadEventCover(values.upload[0].originFileObj)
-                    .then(snapshot => snapshot.ref.getDownloadURL())
-                    .then((url) => {
-                        values.photo = url;
-                        addEvent(values, this.state.clubId).then(data => {
+        if (this.state.isUpdate) {
+            console.log("Gonna Update and see changes ");
+            this.props.form.validateFields((errors, values) => {
+                if (true) {
+                    const updateValues = {
+                        name: values.name,
+                        beginDate: moment(values.dateTime[0]).toISOString(),
+                        endDate: moment(values.dateTime[1]).toISOString(),
+                        price: values.price,
+                        description: values.description,
+                        location: values.location,
+                        domain: values.domain,
+                        institute: values.institute,
+                    }
+                    console.log(values);
+                    delete updateValues.club;
+                    delete updateValues.creationDate;
+                    delete updateValues.photo;
+
+                    const oldValues = Object.assign({}, this.state.selectedEvent);
+                    oldValues.institute = oldValues.institute.id;
+                    oldValues.domain = oldValues.domain.id;
+                    delete oldValues.club;
+                    delete oldValues.id;
+                    delete oldValues.numberParticipation;
+                    delete oldValues.creationDate;
+                    delete oldValues.photo;
+
+                    console.log("Changed Values : ", checkChangedValues(oldValues, updateValues));
+                    values.photo = this.state.selectedEvent.photo;
+                    updateEvent(values, this.props.eventId)
+                        .then(data => {
                             console.log(data);
-                            console.log('Added successfully');
                             this.setState({
                                 visible: false,
                                 isLoading: false,
                             });
+                            setTimeout(()=>{
+                                window.location.reload();
+                            },300) ; 
+                        })
+                        .catch(err => {
+                            console.log(err);
+                        })
+                }
+            });
+        }
+        else {
+            this.setState({
+                isLoading: true
+            })
+            console.log("Adding event");
+            this.props.form.validateFields((errors, values) => {
+                if (!errors) {
+                    uploadEventCover(values.upload[0].originFileObj)
+                        .then(snapshot => snapshot.ref.getDownloadURL())
+                        .then((url) => {
+                            values.photo = url;
+                            addEvent(values, this.state.clubId).then(data => {
+                                console.log(data);
+                                console.log('Added successfully');
+                                this.setState({
+                                    visible: false,
+                                    isLoading: false,
+                                });
+                                setTimeout(()=>{
+                                    window.location.reload();
+                                },300) ;
+                            }).catch(err => {
+                                console.log(err);
+                            });
                         }).catch(err => {
                             console.log(err);
-                        });
-                    }).catch(err => {
-                        console.log(err);
-                    })
-            }
-        });
+                        })
+                }
+            });
+        }
     };
 
     checkEventsSameDate() {
@@ -143,8 +210,8 @@ class AddEvent extends Component {
 
     openCalendar() {
         Modal.confirm({
-            icon:'',
-            title:'Event Calendar Briefing',
+            icon: '',
+            title: 'Event Calendar Briefing',
             width: '70vw',
             content: (
                 <div>
@@ -158,15 +225,16 @@ class AddEvent extends Component {
         });
     }
 
+
     render() {
         const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = this.props.form;
         return (
             <div>
-                <Button style={{ float: 'right', right:'5.5%' }} className="btn-secondary-solid" onClick={this.showDrawer}>
-                    {(this.state.isUpdate) 
-                    ? <div><Icon type="edit" /> Update Event</div>
-                    : 
-                    <div><Icon type="plus" /> New Event</div>
+                <Button style={{ float: 'right', right: '5.5%' }} className="btn-secondary-solid" onClick={this.showDrawer}>
+                    {(this.state.isUpdate)
+                        ? <div><Icon type="edit" /> Update Event</div>
+                        :
+                        <div><Icon type="plus" /> New Event</div>
                     }
                 </Button>
                 <Drawer
@@ -180,7 +248,7 @@ class AddEvent extends Component {
                         <Row gutter={16}>
                             <Col span={12}>
                                 <Form.Item validateStatus={(isFieldTouched('name') && getFieldError('name')) ? 'error' : ''} help={(isFieldTouched('name') && getFieldError('name')) || ''} label="Name">
-                                    {getFieldDecorator('name',{
+                                    {getFieldDecorator('name', {
                                         rules: [{ required: true, whitespace: true, message: 'Please enter the event name' }],
                                     }
                                     )(<Input disabled={this.state.isLoading} placeholder="Event name" />)}
@@ -198,13 +266,15 @@ class AddEvent extends Component {
                                     </div>
                                 }>
                                     {getFieldDecorator('dateTime', {
-                                        rules: [{ required: true, message: 'Please choose the dateTime' }],
+                                        rules: [{ required: true, message: 'Please choose the dateTime' },
+                                        ],
                                     })(
                                         <DatePicker.RangePicker
                                             disabled={this.state.isLoading}
                                             style={{
                                                 width: '100%',
                                             }}
+                                            disabledDate={(d)=> !d  || d.isSameOrBefore(moment(new Date().toISOString(), 'YYYY-MM-DD')) }
                                             showTime={{ format: 'HH:mm' }}
                                             format="YYYY-MM-DD HH:mm"
                                             defaultValue={[moment(new Date().toISOString(), 'YYYY-MM-DD'), moment(new Date().toISOString(), 'YYYY-MM-DD')]}
@@ -219,8 +289,31 @@ class AddEvent extends Component {
                             <Col span={12}>
                                 <Form.Item validateStatus={(isFieldTouched('price') && getFieldError('price')) ? 'error' : ''} help={(isFieldTouched('price') && getFieldError('price')) || ''} label="Price" style={{ width: '15vw' }}>
                                     {getFieldDecorator('price', {
-                                        rules: [{ required: true, whitespace: true, message: 'Please enter event price' }],
+                                        rules: [
+                                            {
+                                                required: true, whitespace: true,
+                                                message: 'Please enter event price'
+                                            },
+                                            {
+                                                pattern: /^\d*[0-9]\d*$/,
+                                                message: 'Number needs to be provided'
+                                            }
+                                        ],
                                     })(<Input disabled={this.state.isLoading} min={0} placeholder="Price" />)}
+                                </Form.Item>
+                            </Col>
+                            <Col span={12}>
+                                <Form.Item validateStatus={(isFieldTouched('NumberParticipation') && getFieldError('NumberParticipation')) ? 'error' : ''} help={(isFieldTouched('NumberParticipation') && getFieldError('NumberParticipation')) || ''} label="Number of Participators">
+                                    {getFieldDecorator('NumberParticipation', {
+                                        rules: [
+                                            {
+                                                pattern: /^\d*[0-9]\d*$/,
+                                                message: 'Number needs to be provided'
+                                            },
+                                            { required: true, whitespace: true, message: 'Please enter the number of participators' }],
+                                    })(
+                                        <Input disabled={this.state.isLoading} placeholder="Number of Participators" />
+                                    )}
                                 </Form.Item>
                             </Col>
                             <Col span={12}>
@@ -231,7 +324,7 @@ class AddEvent extends Component {
                                         {
                                             this.state.listDomains.map(element => {
                                                 return (
-                                                    <Option value={element.id}>{element.Name}</Option>
+                                                    <Option value={element.id}>{element.name}</Option>
                                                 )
                                             })
                                         }
@@ -263,8 +356,10 @@ class AddEvent extends Component {
                                     )}
                                 </Form.Item>
                             </Col>
+
                         </Row>
-                        <Row gutter={16}>
+
+                        {(!this.state.isUpdate) ? <Row gutter={16}>
                             <Col span={12}>
                                 <Form.Item validateStatus={(isFieldTouched('upload') && getFieldError('upload')) ? 'error' : ''} help={(isFieldTouched('upload') && getFieldError('upload')) || ''} label="Upload picture" >
                                     {getFieldDecorator('upload', {
@@ -279,7 +374,7 @@ class AddEvent extends Component {
                                     )}
                                 </Form.Item>
                             </Col>
-                        </Row>
+                        </Row> : ""}
                         <Row gutter={16}>
                             <Col span={24}>
                                 <Form.Item validateStatus={(isFieldTouched('description') && getFieldError('description')) ? 'error' : ''} help={(isFieldTouched('description') && getFieldError('description')) || ''} label="Description">

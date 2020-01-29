@@ -36,10 +36,28 @@ export const addEvent = async (values, clubId) => {
         Domain: values.domain,
         Club: clubId,
         Institute: values.institute,
-        NumberParticipation: 50
+        NumberParticipation: Number(values.NumberParticipation)
     }
-    console.log(body);
+    console.log("Add Body", body);
     return await axios.post(BASE_URL + 'api/v1/events', body);
+}
+
+export const updateEvent = async (values, eventId) => {
+    const body = {
+        Id : eventId,
+        Name: values.name,
+        BeginDate: moment(values.dateTime[0]).toISOString(),
+        EndDate: moment(values.dateTime[1]).toISOString(),
+        price: values.price,
+        Photo: values.photo,
+        Description: values.description,
+        Location: values.location,
+        Domain: values.domain,
+        Institute: values.institute,
+        NumberParticipation: Number(values.NumberParticipation)
+    }
+    console.log("body for update : ",body);
+    return await axios.put(BASE_URL + 'api/v1/events', body);
 }
 
 export const getEventByClubId = async (id) => {

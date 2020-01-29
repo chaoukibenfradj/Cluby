@@ -7,6 +7,8 @@ import './events.scss';
 import { getAllEvents, getEventByClubId } from './../../services/event.service';
 import AddEvent from './add-event';
 import moment from 'moment';
+import { getAllDomains } from '../../services/domain.service';
+import { getAllInstitutes } from '../../services/institute.service';
 const { Option } = Select;
 const { Meta } = Card;
 const { Search } = Input;
@@ -20,7 +22,9 @@ export default class Events extends Component {
             listEventsSearch: [],
             isLoading: true,
             currentUser: JSON.parse(localStorage.getItem('CURRENT_USER')),
-            fetchType: props.fetchType
+            fetchType: props.fetchType,
+            domains: [],
+            institutes: []
         };
     }
 
@@ -103,6 +107,21 @@ export default class Events extends Component {
                 this.getEvents();
                 break;
         }
+        getAllInstitutes().then(data => {
+            this.setState({
+                institutes: data.data
+            })
+        }).catch(err => {
+            console.log(err);
+        })
+        getAllDomains().then(data => {
+            this.setState({
+                domains: data.data
+            });
+        })
+            .catch(err => {
+                console.log(err);
+            })
     }
     getEvents() {
         getAllEvents().then(data => {
@@ -149,13 +168,30 @@ export default class Events extends Component {
 
     onChange(value) {
         console.log(value);
-        if (value === "--") {
+        if (value === "all") {
             console.log("Reset List");
             this.resetList();
         } else {
             const { listEventsInit } = this.state;
             const listEventFiltred = listEventsInit.filter(element => {
-                return element.domain.toLowerCase().indexOf(value.toLowerCase()) >= 0;
+                return element.domain.id === value;
+            });
+            console.log(listEventFiltred);
+            this.setState({
+                listEventsSearch: listEventFiltred
+            });
+        }
+    }
+
+    onChangeInst(value) {
+        console.log(value);
+        if (value === "all") {
+            console.log("Reset List");
+            this.resetList();
+        } else {
+            const { listEventsInit } = this.state;
+            const listEventFiltred = listEventsInit.filter(element => {
+                return element.institute.id === value;
             });
             console.log(listEventFiltred);
             this.setState({
@@ -183,7 +219,7 @@ export default class Events extends Component {
                     <div>
                         <Select
                             showSearch
-                            style={{ width: 200 }}
+                            style={{ width: 170 }}
                             placeholder="Domaine"
                             optionFilterProp="children"
                             onChange={this.onChange.bind(this)}
@@ -193,10 +229,34 @@ export default class Events extends Component {
                                 option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                             }
                         >
-                            <Option value="--">---</Option>
-                            <Option value="it">IT</Option>
-                            <Option value="music">Music</Option>
-                            <Option value="cinema">Cinema</Option>
+                            <Option value="all">All</Option>
+                            {this.state.domains.map(element => {
+                                return (
+                                    <Option value={element.id}>{element.name}</Option>
+                                )
+                            })}
+                        </Select>
+                    </div>
+
+                    <div style={{ marginLeft: "-55px" }}>
+                        <Select
+                            showSearch
+                            style={{ width: 200 }}
+                            placeholder="Institute"
+                            optionFilterProp="children"
+                            onChange={this.onChangeInst.bind(this)}
+                            onFocus={onFocus}
+                            onBlur={onBlur}
+                            filterOption={(input, option) =>
+                                option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                            }
+                        >
+                            <Option value="all">All</Option>
+                            {this.state.institutes.map(element => {
+                                return (
+                                    <Option value={element.id}>{element.name}</Option>
+                                )
+                            })}
                         </Select>
                     </div>
 
