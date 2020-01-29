@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom'
 import { getEventById, studentCancelParticipation, addStudentParticipation, getListParticipators, deleteEvent } from '../../../services/event.service';
 import './../../../assets/styles/main.scss';
 import './event-details.scss';
@@ -174,7 +175,12 @@ export default class EventDetails extends Component {
                             </div>
                             <div className="right-section-bottom">
                                 <h4 className="detail-item">
-                                    <Icon type="team" className="icon" /> {(this.state.selectedEvent) ? this.state.selectedEvent.club.name : ''}
+                                    {
+                                        (this.state.selectedEvent) &&
+                                        <Link to={ '/clubs/club-details/' + this.state.selectedEvent.club.id }>
+                                            <Icon type="team" className="icon" /> { this.state.selectedEvent.club.name }
+                                        </Link>
+                                    }
                                 </h4>
                                 <h4 className="detail-item" >
                                     <Icon type="info-circle" className="icon" />

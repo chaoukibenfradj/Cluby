@@ -7,7 +7,7 @@ const { TextArea } = Input;
 export default class NewEmailModal extends Component {
 
     render() {
-        const { visible, onSend, onCancel, form } = this.props;
+        const { visible, onSend, onCancel, receiverEmailAddress, form } = this.props;
         const { getFieldDecorator } = form;
 
         return(
@@ -22,13 +22,14 @@ export default class NewEmailModal extends Component {
                             getFieldDecorator(
                                 'Receiver',
                                 {
+                                    initialValue: receiverEmailAddress,
                                     rules: [
                                         { required: true, message: 'This field is required' },
                                         { type: 'email', message: 'Invalid email address' }
                                     ]
                                 }
                             )(
-                                <Input placeholder="Receiver email address" />,
+                                <Input placeholder="Receiver email address" disabled={ (receiverEmailAddress) ? true : false } />,
                             )
                         }
                     </Form.Item>
