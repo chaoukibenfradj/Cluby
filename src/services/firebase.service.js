@@ -1,7 +1,7 @@
 import firebase from 'firebase';
 import { firebaseConfig } from '../const';
 
-export const uploadEventCover= async (file) => {
+export const uploadEventCover = async (file) => {
     var blob = new Blob([file], { type: "image/jpeg" });
     firebase.initializeApp(firebaseConfig);
     const ref = firebase.storage().ref('/events/');

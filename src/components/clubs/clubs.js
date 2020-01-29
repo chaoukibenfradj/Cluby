@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import './../../assets/styles/main.scss';
-import { Col, Row, Card, Skeleton, Input, Icon, Select, Divider } from 'antd';
+import { Col, Row, Card, Skeleton, Input, Icon, Select, Divider, Empty } from 'antd';
 import './../../services/club.service';
 import placeholder from './../../assets/imgs/placeholder.png';
 import './clubs.scss';
 import { getAllClubs } from './../../services/club.service';
-
-
 const { Meta } = Card;
+
+
 
 export default class Clubs extends Component {
     constructor(props) {
@@ -16,6 +16,8 @@ export default class Clubs extends Component {
             listClubsInit: [],
             listClubsSearch: [],
             isLoading: true,
+            currentUser: JSON.parse(localStorage.getItem('CURRENT_USER')),
+            fetchType: props.fetchType
         };
     }
 
@@ -52,12 +54,24 @@ export default class Clubs extends Component {
                 col.push(
                     <Col span={8} key={element.id} style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
                         <Card
-                            onClick={() => { this.props.history.push(`/clubs/club-details/${element.id}`) }}
+                            onClick={() => { this.props.history.push(`/clubs/test/${element.id}`) }}
                             hoverable
-                            style={{ width: '25vw', borderRadius: '20px' }}
+                            style={{ width: '85%', borderRadius: '20px' }}
                             cover={<img alt="club-card" src={element.photo} onError={(e) => { e.target.src = placeholder }} />}
                         >
-                            <Meta title={element.name} className="text-limit" description={element.description} />
+                            <Meta title={
+                                <div className="club-details-card">
+                                    <span className="club-title">
+                                        {element.name}
+                                    </span>
+                                </div>
+                            } description={
+                                <div className="club-details-card">
+                                    <span className="text-limit">
+                                        {element.description}
+                                    </span>
+                                </div>
+                            } />
                         </Card>
                     </Col>
                 )
@@ -70,13 +84,16 @@ export default class Clubs extends Component {
     componentDidMount() {
         this.setState({ isLoading: true });
         getAllClubs().then(data => {
-            this.setState({ listClubsInit: data.data, listClubsSearch: data.data });
+            console.log(data.data);
+            this.setState({ listClubInit: data.data, listClubsSearch: data.data });
             this.setState({ isLoading: false });
         }).catch(err => {
             this.setState({ isLoading: false });
             console.log(err);
         })
     }
+
+
     onSearchInput = (value) => {
         console.log(value);
         if (value.length == 0) {
@@ -98,7 +115,6 @@ export default class Clubs extends Component {
         this.setState({ listClubsSearch: this.state.listClubsInit });
     }
 
-
     onChange(value) {
         console.log(value);
         if (value === "--") {
@@ -119,15 +135,13 @@ export default class Clubs extends Component {
     render() {
         return (
             <div style={{ padding: '30px', width: '100%' }} className="website-layout-view-container clubs-list">
+
                 <Divider>Clubs</Divider>
                 <div>
                     {(this.state.listClubsSearch && this.state.listClubsSearch.length > 0 && !this.state.isLoading) ?
                         this.createClubRows(this.state.listClubsSearch)
                         : (!this.state.isLoading && this.state.listClubsSearch.length === 0)
-                            ? <div className="center-div">
-                                <Icon className="error-icon" type="frown" />
-                                No Clubs
-                            </div>
+                            ? <Empty />
                             : ""
 
                     }

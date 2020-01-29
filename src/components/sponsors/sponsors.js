@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react';
 import './../../assets/styles/main.scss';
 import { Col, Row, Card, Skeleton, Input, Icon, Select, Divider } from 'antd';
@@ -58,7 +57,7 @@ export default class Sponsors extends Component {
                             style={{ width: '25vw', borderRadius: '20px' }}
                             cover={<img alt="sponsor-card" src={element.photo} onError={(e) => { e.target.src = placeholder }} />}
                         >
-                            <Meta title={element.name} className="text-limit" description={element.description} />
+                            <Meta title={element.entreprise} className="text-limit" />
                         </Card>
                     </Col>
                 )
@@ -121,9 +120,6 @@ export default class Sponsors extends Component {
     render() {
         return (
             <div style={{ padding: '30px', width: '100%' }} className="website-layout-view-container sponsors-list">
-
-
-
 
                 <Divider>Sponsors</Divider>
                 <div>

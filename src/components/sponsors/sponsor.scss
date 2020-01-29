@@ -1,10 +1,8 @@
+@import '../../assets/styles/main.scss';
+
 .search-section {
     margin: 2.5vw;
     display: flex;
-}
-
-.search-section div {
-    margin-right: 2vw;
 }
 
 .sponsors-list {
@@ -24,4 +22,14 @@
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
+}
+
+.sponsor-details-card {
+    display: flex;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: baseline;
+    .event-title {
+        color: map-get($colors, secondary);
+    }
 }
